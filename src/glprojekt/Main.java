@@ -5,17 +5,22 @@
  */
 package glprojekt;
 
+import glprojekt.gui.Add_employee_1;
+
 /**
  *
  * @author tomas
  */
-public class GlProjekt {
+public class Main {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        Add_employee_1 employ = new Add_employee_1();
+          employ.setVisible(true);
+        
     }
     
 }

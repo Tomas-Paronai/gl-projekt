@@ -1,4 +1,4 @@
-package com.company;
+package glprojekt.api;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.HashMap;
  */
 public class HandlerDB {
 
-    private final String dateFix = "?zeroDateTimeBehavior=convertToNull";
+    private final String dateFix = "?zeroDateTimeBehavior=convertToNull&autoReconnect=true&useSSL=false";
 
     private String url;
     private String database;
