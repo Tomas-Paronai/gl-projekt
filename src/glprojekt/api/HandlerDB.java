@@ -18,6 +18,7 @@ public class HandlerDB {
     private String driver;
 
     private Connection dbConnection;
+    private PreparedStatement statement;
 
     /**
      *
@@ -109,6 +110,49 @@ public class HandlerDB {
         }
         catch (SQLException e){
             e.printStackTrace();
+        }
+    }
+
+    public void prepareStatement(String query){
+        try {
+            statement = dbConnection.prepareStatement(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateStatement(int position, String value){
+        if(statement != null){
+            try {
+                statement.setString(position,value);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void updateStatement(String... value){
+        if(statement != null){
+            try{
+
+                for(int i = 1; i <= value.length; i++){
+                    statement.setString(i,value[i-1]);
+                }
+
+            } catch(SQLException e){
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    public void executeStatement(){
+        if(statement != null){
+            try {
+                statement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
