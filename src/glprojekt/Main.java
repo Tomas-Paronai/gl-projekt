@@ -12,7 +12,7 @@ import glprojekt.gui.Login;
 
 import glprojekt.gui.Main_screen;
 
-import glprojekt.gui.Update_employee_1;
+import glprojekt.gui.Update_employee;
 
 /**
  *
@@ -23,52 +23,9 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-<<<<<<< HEAD
+
     public static void main(String[] args) {      
-      Login login = new Login();
-      login.setVisible(true);
-=======
-    public static void main(String[] args) {
-        // TODO code application logic here
-<<<<<<< HEAD
-
-       Add_employee employ = new Add_employee();
-          employ.setVisible(true);
-=======
-<<<<<<< HEAD
-    
-=======
-<<<<<<< HEAD
-       /*Add_employee employ = new Add_employee();
-          employ.setVisible(true);*/
->>>>>>> aa239b6c3c68b204cdb38b148e5a658d0767e3d4
-          
-                 
-      /*Login login = new Login();
-      login.setVisible(true);*/
-
-      /* Add_employee_1 employ = new Add_employee_1();
-          employ.setVisible(true);*/
-
-       
-      /*Delete_employee delete = new Delete_employee();
-       delete.setVisible(true);
-     
-       /*Update_employee_1 update = new Update_employee_1();
-     update.setVisible(true);*/
-      
-<<<<<<< HEAD
-     /* Main_screen screen = new Main_screen();
-      screen.setVisible(true);*/
-=======
->>>>>>> 54439392194dc5aa8ec9e102cfd40f2e5f67ed10
-      Main_screen screen = new Main_screen();
-      screen.setVisible(true);
->>>>>>> aa239b6c3c68b204cdb38b148e5a658d0767e3d4
-       
-          
-        
->>>>>>> edab5313d69bed1136f75c8cefdb5347c70812d3
+     Add_employee employee = new Add_employee();
+        employee.setVisible(true);
     }
-    
 }

@@ -14,12 +14,12 @@ import javax.swing.JLabel;
  *
  * @author dominik
  */
-public class Update_employee_1 extends javax.swing.JFrame {
+public class Update_employee extends javax.swing.JFrame {
 
     /**
      * Creates new form Add_employee
      */
-    public Update_employee_1() {
+    public Update_employee() {
         initComponents();
     }
 
@@ -74,14 +74,11 @@ public class Update_employee_1 extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-<<<<<<< HEAD
 
         jScrollPane1.setPreferredSize(new java.awt.Dimension(503, 1014));
 
         jPanel1.setBackground(new java.awt.Color(106, 159, 240));
         jPanel1.setPreferredSize(new java.awt.Dimension(601, 1012));
-=======
->>>>>>> edab5313d69bed1136f75c8cefdb5347c70812d3
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel1.setText("Update employee");
@@ -303,18 +300,7 @@ public class Update_employee_1 extends javax.swing.JFrame {
                                 .addComponent(jLabel4)
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel11)))
-<<<<<<< HEAD
                         .addGap(0, 177, Short.MAX_VALUE))
-=======
-<<<<<<< HEAD
-                        .addGap(0, 257, Short.MAX_VALUE))))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(167, 167, 167)
-                .addComponent(jLabel1)
-                .addGap(0, 0, Short.MAX_VALUE))
-=======
-                        .addGap(0, 257, Short.MAX_VALUE))
->>>>>>> edab5313d69bed1136f75c8cefdb5347c70812d3
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(3, 3, 3)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -330,7 +316,10 @@ public class Update_employee_1 extends javax.swing.JFrame {
                                     .addComponent(jLabel23)))
                             .addComponent(jLabel17))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
->>>>>>> 54439392194dc5aa8ec9e102cfd40f2e5f67ed10
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(167, 167, 167)
+                .addComponent(jLabel1)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

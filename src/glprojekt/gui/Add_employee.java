@@ -369,16 +369,28 @@ public class Add_employee extends javax.swing.JFrame {
     }//GEN-LAST:event_jAddResetActionPerformed
 
     private void jAddSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAddSaveActionPerformed
-         updateData();
+         insertContactData();
     }//GEN-LAST:event_jAddSaveActionPerformed
-    private void updateData(){
+    //prida udaje do tabulky kontakt
+    public void insertContactData(){
+         String phone = jAddPhone.getText();
+         String email = jAddEmail.getText();
        handler.connect();
         handler.prepareStatement(query.getAddToContact());
-       // int jml = Integer.parseInt(jAddPhone.getText());
-        handler.updateStatement("2","09858851","email1@email.sk");
+        handler.updateStatement("3",phone,email);
         handler.executeStatement();
-        //handler.disconnect();
-    
+    }
+    //prida udaje do tabulky employee
+    public void insertEmployeeData(){
+        
+    }
+    //prida udaje do tabulky adrress
+    public void insertAdressData(){
+        
+    }
+    //prida udaje do tabulky salary
+    public void insertSalaryData(){
+        
     }
     
     
