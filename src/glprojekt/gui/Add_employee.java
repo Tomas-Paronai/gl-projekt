@@ -78,7 +78,7 @@ public class Add_employee extends javax.swing.JFrame {
         jAddReset = new javax.swing.JButton();
         AddDate = new datechooser.beans.DateChooserCombo();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(102, 102, 102));
         jPanel1.setForeground(new java.awt.Color(51, 51, 51));
