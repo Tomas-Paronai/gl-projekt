@@ -5,6 +5,8 @@
  */
 package glprojekt.gui;
 
+import java.awt.Color;
+
 /**
  *
  * @author BousH
@@ -16,6 +18,7 @@ public class Delete_employee extends javax.swing.JFrame {
      */
     public Delete_employee() {
         initComponents();
+        this.getContentPane().setBackground(new Color(106,159,240));
     }
 
     /**
@@ -59,6 +62,9 @@ public class Delete_employee extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel5.setText("Are you sure you want to delete this employee?");
 
+        jButtonDeleteYes.setBackground(new java.awt.Color(102, 102, 102));
+        jButtonDeleteYes.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jButtonDeleteYes.setForeground(new java.awt.Color(51, 51, 51));
         jButtonDeleteYes.setText("Yes");
         jButtonDeleteYes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -66,6 +72,9 @@ public class Delete_employee extends javax.swing.JFrame {
             }
         });
 
+        jButtonDeleteYes1.setBackground(new java.awt.Color(102, 102, 102));
+        jButtonDeleteYes1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jButtonDeleteYes1.setForeground(new java.awt.Color(51, 51, 51));
         jButtonDeleteYes1.setText("No");
         jButtonDeleteYes1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
