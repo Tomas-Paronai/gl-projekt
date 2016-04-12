@@ -365,9 +365,6 @@ public class Add_employee extends javax.swing.JFrame {
     }//GEN-LAST:event_jAddSaveActionPerformed
     private void updateData(){
        handler.connect();
-            
-       
-        
         handler.prepareStatement(query.getAddToContact());
        // int jml = Integer.parseInt(jAddPhone.getText());
         handler.updateStatement("2","09858851","email1@email.sk");

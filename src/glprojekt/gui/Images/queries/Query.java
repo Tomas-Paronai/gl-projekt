@@ -12,11 +12,11 @@ package glprojekt.gui.Images.queries;
 public class Query {
     
     private String addToEmployee = "INSERT INTO `employee` "
-                     +"(`ID`, `Name`, `Surname`, `Sex`, `Birth_date`, `Start_date`)"
-                    +"VALUES (?, ?, ?, ?, ?,?)";
+                                    +"(`ID`, `Name`, `Surname`, `Sex`, `Birth_date`, `Start_date`)"
+                                    +"VALUES (?, ?, ?, ?, ?,?)";
     private String addToContact = "INSERT INTO `contact` "
-                                 +"(`Employee_id`, `Phone`, `Email`) "
-                                 + "VALUES (?,?,?)";
+                                    +"(`Employee_id`, `Phone`, `Email`) "
+                                    + "VALUES (?,?,?)";
     
     public Query(){
         
