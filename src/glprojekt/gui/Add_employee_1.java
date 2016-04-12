@@ -72,7 +72,7 @@ public class Add_employee_1 extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         dateChooserCombo1 = new datechooser.beans.DateChooserCombo();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel1.setText("Add employee");

@@ -21,15 +21,7 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-      /* Add_employee_1 employ = new Add_employee_1();
-          employ.setVisible(true);*/
-       
-      /*Delete_employee delete = new Delete_employee();
-       delete.setVisible(true);
-     
-       /*Update_employee_1 update = new Update_employee_1();
-     update.setVisible(true);*/
-      
+    
       Main_screen screen = new Main_screen();
       screen.setVisible(true);
        
