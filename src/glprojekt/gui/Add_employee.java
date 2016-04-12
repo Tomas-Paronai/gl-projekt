@@ -78,10 +78,10 @@ public class Add_employee extends javax.swing.JFrame {
         jAddReset = new javax.swing.JButton();
         AddDate = new datechooser.beans.DateChooserCombo();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(102, 102, 102));
-        jPanel1.setForeground(new java.awt.Color(51, 51, 51));
+        jPanel1.setBackground(new java.awt.Color(106, 159, 240));
+        jPanel1.setForeground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel1.setText("Add employee");
@@ -172,6 +172,9 @@ public class Add_employee extends javax.swing.JFrame {
 
         jAddSalary.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
+        jAddSave.setBackground(new java.awt.Color(102, 102, 102));
+        jAddSave.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jAddSave.setForeground(new java.awt.Color(51, 51, 51));
         jAddSave.setText("Save");
         jAddSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -179,6 +182,9 @@ public class Add_employee extends javax.swing.JFrame {
             }
         });
 
+        jAddReset.setBackground(new java.awt.Color(102, 102, 102));
+        jAddReset.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jAddReset.setForeground(new java.awt.Color(51, 51, 51));
         jAddReset.setText("Reset");
         jAddReset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -350,7 +356,9 @@ public class Add_employee extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 893, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 882, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
