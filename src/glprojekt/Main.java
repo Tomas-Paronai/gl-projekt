@@ -5,8 +5,9 @@
  */
 package glprojekt;
 
-import glprojekt.gui.Add_employee_1;
+import glprojekt.gui.Add_employee;
 import glprojekt.gui.Delete_employee;
+import glprojekt.gui.Login;
 import glprojekt.gui.Update_employee_1;
 
 /**
@@ -20,8 +21,12 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-       Add_employee_1 employ = new Add_employee_1();
-          employ.setVisible(true);
+       /*Add_employee employ = new Add_employee();
+          employ.setVisible(true);*/
+          
+                 
+      Login login = new Login();
+      login.setVisible(true);
        
       /*Delete_employee delete = new Delete_employee();
        delete.setVisible(true);
