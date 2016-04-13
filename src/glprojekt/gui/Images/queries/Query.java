@@ -9,8 +9,7 @@ package glprojekt.gui.Images.queries;
  *
  * @author dominik
  */
-public class Query {
-    
+public class Query { 
     private String addToEmployee = "INSERT INTO `employee` "
                                     +"(`ID`, `Name`, `Surname`, `Sex`, `Birth_date`, `Start_date`)"
                                     +"VALUES (?, ?, ?, ?, ?,?)";
