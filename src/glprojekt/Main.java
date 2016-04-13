@@ -25,7 +25,7 @@ public class Main {
      */
 
     public static void main(String[] args) {      
-     Add_employee employee = new Add_employee();
+        Add_employee employee = new Add_employee();
         employee.setVisible(true);
     }
 }
