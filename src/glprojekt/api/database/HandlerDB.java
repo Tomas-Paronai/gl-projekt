@@ -1,4 +1,4 @@
-package glprojekt.api;
+package glprojekt.api.database;
 
 import java.sql.*;
 import java.util.ArrayList;

@@ -6,11 +6,8 @@
 package glprojekt.gui;
 
 
-import glprojekt.api.HandlerDB;
+import glprojekt.api.database.HandlerDB;
 import glprojekt.gui.Images.queries.Query;
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JLabel;
 
 /**
  *

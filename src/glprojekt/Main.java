@@ -20,12 +20,18 @@ import glprojekt.gui.Update_employee;
  */
 public class Main {
 
+    public static final String URL = "localhost:3306";
+    public static final String USER = "root";
+    public static final String DATABASE = "employees";
+    public static final String PASS = "";
     /**
      * @param args the command line arguments
      */
 
     public static void main(String[] args) {      
-        Add_employee employee = new Add_employee();
-        employee.setVisible(true);
+/*      Login log = new Login();
+        log.setVisible(true);*/
+        Main_screen main = new Main_screen();
+        main.setVisible(true);
     }
 }
