@@ -25,7 +25,9 @@ public class Main {
      */
 
     public static void main(String[] args) {      
-     Add_employee employee = new Add_employee();
-        employee.setVisible(true);
+/*     Login log = new Login();
+     log.setVisible(true);*/
+Main_screen main = new Main_screen();
+main.setVisible(true);
     }
 }
