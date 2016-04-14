@@ -39,7 +39,7 @@ public class HandlerDB {
         try {
             dbConnection = DriverManager.getConnection(url+database+dateFix,user,password);
         } catch (SQLException e) {
-            System.out.println("error" +e);
+            System.out.println("error " +e);
             return false;
         }
         return true;
