@@ -9,7 +9,8 @@ import glprojekt.api.database.*;
 public class WindowDataHandler {
 
     private HandlerDB handlerDB;
-    private Select select;
+    private Select select;   
+    
 
     public WindowDataHandler() {
         handlerDB = new HandlerDB(Main.URL,Main.DATABASE,Main.USER,Main.PASS);

@@ -5,12 +5,14 @@
  */
 package glprojekt.gui;
 
+import glprojekt.api.OnDataChange;
 import glprojekt.api.WindowDataHandler;
 import glprojekt.api.database.Query;
 import glprojekt.api.database.Select;
 import java.awt.BorderLayout;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -18,26 +20,39 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Bubo
  */
-public class Main_screen extends javax.swing.JFrame {
+public class Main_screen extends ParentWindow implements OnDataChange{
 
-    private WindowDataHandler dataHandler;
-
-
-   private void FillCombo(){
-       
-         
-}
-    public Main_screen() {
+    private ParentWindow currentWindow;
+   
+    
+    public Main_screen(OnDataChange listener) {
+        super(listener);
         initComponents();
         this.getContentPane().setBackground(new Color(106,159,240));
            
         dataHandler = new WindowDataHandler();
+        dataChanged();
+    }
+
+    @Override
+    public void dataChanged() {
         dataHandler.initiateSQLCommand(Query.SELECT_ALL_EMPLOYEE);
         EmployeesTable.setModel(new DefaultTableModel(dataHandler.getSelect().getData(),dataHandler.getSelect().getColumns()));
     }
-
-
-
+    
+    public void openNewWindow(ParentWindow window){
+        if(currentWindow != null){
+            currentWindow.dispose();
+        }
+        currentWindow = window;        
+        currentWindow.setVisible(true);
+    }
+    
+    @Override
+    public void dispose(){
+        notifyDataChange();
+        super.dispose();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -444,18 +459,15 @@ public class Main_screen extends javax.swing.JFrame {
     }//GEN-LAST:event_employeeByNameTxtFieldActionPerformed
 
     private void mainScrInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mainScrInsertActionPerformed
-        Add_employee employ = new Add_employee();
-        employ.setVisible(true);
+        openNewWindow(new Add_employee(this));
     }//GEN-LAST:event_mainScrInsertActionPerformed
 
     private void mainScrIUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mainScrIUpdateActionPerformed
-        Update_employee update = new Update_employee();
-        update.setVisible(true);
+        openNewWindow(new Update_employee(this));
     }//GEN-LAST:event_mainScrIUpdateActionPerformed
 
     private void mainScrDelteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mainScrDelteActionPerformed
-        Delete_employee delete = new Delete_employee();
-        delete.setVisible(true);
+        openNewWindow(new Delete_employee(this));
     }//GEN-LAST:event_mainScrDelteActionPerformed
 
     
@@ -525,5 +537,7 @@ public class Main_screen extends javax.swing.JFrame {
     private javax.swing.JButton mainScrInsert;
     private javax.swing.JButton mainScrSave;
     // End of variables declaration//GEN-END:variables
+
+    
 
 }

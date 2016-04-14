@@ -6,14 +6,16 @@
 package glprojekt.gui;
 
 
+import glprojekt.api.OnDataChange;
 import glprojekt.api.database.HandlerDB;
+import glprojekt.api.database.QueryType;
 import glprojekt.gui.Images.queries.Query;
 
 /**
  *
  * @author dominik
  */
-public class Add_employee extends javax.swing.JFrame {
+public class Add_employee extends ParentWindow {
 
    
         HandlerDB handler = new HandlerDB("localhost:3306","employees","root","");
@@ -21,9 +23,10 @@ public class Add_employee extends javax.swing.JFrame {
      /**
      * Creates new form Add_employee
      */
-    public Add_employee() {
+
+    public Add_employee(OnDataChange aThis) {
+        super(aThis);
         initComponents();
-        
     }
 
     /**
@@ -370,12 +373,12 @@ public class Add_employee extends javax.swing.JFrame {
     }//GEN-LAST:event_jAddSaveActionPerformed
     //prida udaje do tabulky kontakt
     public void insertContactData(){
-         String phone = jAddPhone.getText();
-         String email = jAddEmail.getText();
-       handler.connect();
-        handler.prepareStatement(query.getAddToContact());
-        handler.updateStatement("3",phone,email);
-        handler.executeStatement();
+        String name = jAddName.getText();
+        String surname = jAddSurname.getText();
+        
+        //com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'Tomas' in 'field list'
+        dataHandler.initiateSQLCommand("INSERT INTO employee (`name`,`surname`) VALUES ("+name+","+surname+")", QueryType.INSERT);
+        notifyDataChange();
     }
     //prida udaje do tabulky employee
     public void insertEmployeeData(){

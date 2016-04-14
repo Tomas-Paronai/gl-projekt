@@ -31,7 +31,7 @@ public class Main {
     public static void main(String[] args) {      
 /*      Login log = new Login();
         log.setVisible(true);*/
-        Main_screen main = new Main_screen();
+        Main_screen main = new Main_screen(null);
         main.setVisible(true);
     }
 }

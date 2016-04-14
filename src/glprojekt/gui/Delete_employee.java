@@ -5,18 +5,21 @@
  */
 package glprojekt.gui;
 
+import glprojekt.api.OnDataChange;
 import java.awt.Color;
 
 /**
  *
  * @author BousH
  */
-public class Delete_employee extends javax.swing.JFrame {
+public class Delete_employee extends ParentWindow {
 
     /**
      * Creates new form Delete_employee
      */
-    public Delete_employee() {
+
+    public Delete_employee(OnDataChange aThis) {
+        super(aThis);
         initComponents();
         this.getContentPane().setBackground(new Color(106,159,240));
     }
@@ -200,7 +203,7 @@ public class Delete_employee extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Delete_employee().setVisible(true);
+                new Delete_employee(null).setVisible(true);
             }
         });
     }
