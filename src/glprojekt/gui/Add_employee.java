@@ -5,7 +5,6 @@
  */
 package glprojekt.gui;
 
-
 import glprojekt.api.OnDataChange;
 import glprojekt.api.database.HandlerDB;
 import glprojekt.api.database.QueryType;
@@ -17,10 +16,10 @@ import glprojekt.gui.Images.queries.Query;
  */
 public class Add_employee extends ParentWindow {
 
-   
-        HandlerDB handler = new HandlerDB("localhost:3306","employees","root","");
-        Query query = new Query();
-     /**
+    HandlerDB handler = new HandlerDB("localhost:3306", "employees", "root", "");
+    Query query = new Query();
+
+    /**
      * Creates new form Add_employee
      */
 
@@ -364,36 +363,54 @@ public class Add_employee extends ParentWindow {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void resetData() {
+        jAddName.setText("");
+        jAddSurname.setText("");
+        buttonGroup1.clearSelection();
+        AddDate.setSelectedDate(null);
+        jAddCountry.setText("");
+        jAddCity.setText("");
+        jAddStreet.setText("");
+        jAddNumber.setText("");
+        jAddPostcode.setText("");
+        jAddPhone.setText("");
+        jAddEmail.setText("");
+        jAddHours.setText("");
+        jAddSalary.setText("");
+        jAddWph.setText("");
+    }
     private void jAddResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAddResetActionPerformed
-        // TODO add your handling code here:
+        resetData();
     }//GEN-LAST:event_jAddResetActionPerformed
 
     private void jAddSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAddSaveActionPerformed
-         insertContactData();
+        insertContactData();
     }//GEN-LAST:event_jAddSaveActionPerformed
     //prida udaje do tabulky kontakt
-    public void insertContactData(){
+    public void insertContactData() {
         String name = jAddName.getText();
         String surname = jAddSurname.getText();
-        
+
         //com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'Tomas' in 'field list'
-        dataHandler.initiateSQLCommand("INSERT INTO employee (`name`,`surname`) VALUES ("+name+","+surname+")", QueryType.INSERT);
+        dataHandler.initiateSQLCommand("INSERT INTO employee (`name`,`surname`) VALUES (" + name + "," + surname + ")", QueryType.INSERT);
         notifyDataChange();
     }
+
     //prida udaje do tabulky employee
-    public void insertEmployeeData(){
-        
+    public void insertEmployeeData() {
+
     }
+
     //prida udaje do tabulky adrress
-    public void insertAdressData(){
-        
+    public void insertAdressData() {
+
     }
+
     //prida udaje do tabulky salary
-    public void insertSalaryData(){
-        
+    public void insertSalaryData() {
+
     }
-    
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private datechooser.beans.DateChooserCombo AddDate;
@@ -437,5 +454,4 @@ public class Add_employee extends ParentWindow {
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 
-    
 }
