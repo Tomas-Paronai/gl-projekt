@@ -3,6 +3,7 @@ package glprojekt.api.database;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /**
  * Created by tomas on 4/7/2016.
@@ -65,7 +66,7 @@ public class HandlerDB {
         Statement st;
         ResultSet res = null;
 
-        HashMap<String,ArrayList<String>> result = new HashMap<>();
+        HashMap<String,ArrayList<String>> result = new LinkedHashMap<>();
 
         try {
 

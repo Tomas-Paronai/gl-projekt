@@ -131,7 +131,7 @@ public class Login extends javax.swing.JFrame {
         String password = jPasswordField1.getText().toString();
         if (UN.equals(username)) {
             if (pass.equals(password)) {
-                Main_screen screen = new Main_screen();
+                Main_screen screen = new Main_screen(null);
                 screen.setVisible(true);
                 this.dispose();
                 

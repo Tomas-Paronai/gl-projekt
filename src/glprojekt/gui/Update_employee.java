@@ -6,6 +6,7 @@
 package glprojekt.gui;
 
 
+import glprojekt.api.OnDataChange;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -14,12 +15,14 @@ import javax.swing.JLabel;
  *
  * @author dominik
  */
-public class Update_employee extends javax.swing.JFrame {
+public class Update_employee extends ParentWindow {
 
     /**
      * Creates new form Add_employee
      */
-    public Update_employee() {
+
+    public Update_employee(OnDataChange aThis) {
+        super(aThis); 
         initComponents();
     }
 

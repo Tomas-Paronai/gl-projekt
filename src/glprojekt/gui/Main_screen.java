@@ -5,38 +5,54 @@
  */
 package glprojekt.gui;
 
+import glprojekt.api.OnDataChange;
 import glprojekt.api.WindowDataHandler;
 import glprojekt.api.database.Query;
 import glprojekt.api.database.Select;
+import java.awt.BorderLayout;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Bubo
  */
-public class Main_screen extends javax.swing.JFrame {
+public class Main_screen extends ParentWindow implements OnDataChange{
 
-    private WindowDataHandler dataHandler;
-
-
-   private void FillCombo(){
-       
-         
-}
-    public Main_screen() {
+    private ParentWindow currentWindow;
+   
+    
+    public Main_screen(OnDataChange listener) {
+        super(listener);
         initComponents();
         this.getContentPane().setBackground(new Color(106,159,240));
-
+           
         dataHandler = new WindowDataHandler();
-        dataHandler.initiateSQLCommand(Query.SELECT_ALL_EMPLOYEE);
-        initJTable(dataHandler.getSelect());
-
+        dataChanged();
     }
 
-
-
+    @Override
+    public void dataChanged() {
+        dataHandler.initiateSQLCommand(Query.SELECT_ALL_EMPLOYEE);
+        EmployeesTable.setModel(new DefaultTableModel(dataHandler.getSelect().getData(),dataHandler.getSelect().getColumns()));
+    }
+    
+    public void openNewWindow(ParentWindow window){
+        if(currentWindow != null){
+            currentWindow.dispose();
+        }
+        currentWindow = window;        
+        currentWindow.setVisible(true);
+    }
+    
+    @Override
+    public void dispose(){
+        notifyDataChange();
+        super.dispose();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -85,6 +101,7 @@ public class Main_screen extends javax.swing.JFrame {
         jLabel27 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
         jLabel29 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -245,6 +262,13 @@ public class Main_screen extends javax.swing.JFrame {
 
         jLabel29.setText("jLabel29");
 
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         jMenuBar1.setBackground(new java.awt.Color(106, 159, 240));
         jMenuBar1.setForeground(new java.awt.Color(255, 255, 255));
 
@@ -299,17 +323,14 @@ public class Main_screen extends javax.swing.JFrame {
                                                 .addGap(50, 50, 50)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addComponent(jLabel10)
-                                                    .addComponent(jLabel22))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                    .addComponent(jLabel22)))
                                             .addGroup(layout.createSequentialGroup()
                                                 .addGap(72, 72, 72)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addGroup(layout.createSequentialGroup()
                                                         .addComponent(jLabel28)
                                                         .addGap(0, 0, Short.MAX_VALUE))
-                                                    .addGroup(layout.createSequentialGroup()
-                                                        .addComponent(jLabel16)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                                    .addComponent(jLabel16))
                                                 .addGap(142, 142, 142)))
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(layout.createSequentialGroup()
@@ -354,12 +375,17 @@ public class Main_screen extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(160, 160, 160)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 501, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(employeeByNameTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 501, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(employeeByNameTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(34, 34, 34))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -370,7 +396,9 @@ public class Main_screen extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addComponent(employeeByNameTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel1))
-                .addGap(38, 38, 38)
+                .addGap(2, 2, 2)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(46, 46, 46)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -431,37 +459,43 @@ public class Main_screen extends javax.swing.JFrame {
     }//GEN-LAST:event_employeeByNameTxtFieldActionPerformed
 
     private void mainScrInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mainScrInsertActionPerformed
-        Add_employee employ = new Add_employee();
-        employ.setVisible(true);
+        openNewWindow(new Add_employee(this));
     }//GEN-LAST:event_mainScrInsertActionPerformed
 
     private void mainScrIUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mainScrIUpdateActionPerformed
-        Update_employee update = new Update_employee();
-        update.setVisible(true);
+        openNewWindow(new Update_employee(this));
     }//GEN-LAST:event_mainScrIUpdateActionPerformed
 
     private void mainScrDelteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mainScrDelteActionPerformed
-        Delete_employee delete = new Delete_employee();
-        delete.setVisible(true);
+        openNewWindow(new Delete_employee(this));
     }//GEN-LAST:event_mainScrDelteActionPerformed
 
     
     private void EmployeesTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EmployeesTableMouseClicked
-      try{
-          int row=EmployeesTable.getSelectedRow();
+        try{
+            int row=EmployeesTable.getSelectedRow();
 
-      }
-      catch(Exception e){
-               JOptionPane.showMessageDialog(null, e);   
-            }
-      
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+
     }//GEN-LAST:event_EmployeesTableMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        //        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        //        model.addRow(new Object[]{"2"});
+        //        System.out.println(model.getDataVector());
+        //        model.fireTableDataChanged();
+        //        repaint();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable EmployeesTable;
     private javax.swing.JTextField employeeByNameTxtField;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -504,9 +538,6 @@ public class Main_screen extends javax.swing.JFrame {
     private javax.swing.JButton mainScrSave;
     // End of variables declaration//GEN-END:variables
 
-    private void initJTable(Select tmpSelect) {
-        if(tmpSelect != null){
-            jTable1 = new JTable(tmpSelect.getData(),tmpSelect.getColumns());
-        }
-    }
+    
+
 }
