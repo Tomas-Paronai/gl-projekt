@@ -5,8 +5,9 @@
  */
 package glprojekt.gui;
 
+import glprojekt.Main;
 import glprojekt.api.OnDataChange;
-import glprojekt.api.WindowDataHandler;
+import glprojekt.api.database.HandlerDB;
 
 /**
  *
@@ -14,11 +15,11 @@ import glprojekt.api.WindowDataHandler;
  */
 public abstract class ParentWindow  extends javax.swing.JFrame{
 
-    protected WindowDataHandler dataHandler;
     private OnDataChange listener;
+    protected HandlerDB handlerDB;
        
     public ParentWindow(OnDataChange listener){
-        dataHandler = new WindowDataHandler();
+        handlerDB = new HandlerDB(Main.URL,Main.DATABASE,Main.USER,Main.PASS);
         this.listener = listener;        
     }
     

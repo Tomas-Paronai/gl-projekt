@@ -1,4 +1,4 @@
-package main.api.database;
+package glprojekt.api.database;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -86,7 +86,7 @@ public class HandlerDB {
                         values.add(res.getString(columnName));
                     }
 
-                    if(values.size() == 0){
+                    if(values.isEmpty()){
                         throw new NoResultException("Empty set with query "+query);
                     }
 
