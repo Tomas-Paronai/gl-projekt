@@ -22,7 +22,6 @@ import javax.swing.table.DefaultTableModel;
 public class Main_screen extends ParentWindow implements OnDataChange{
 
     private ParentWindow currentWindow;
-    private Select select;
    
     
     public Main_screen(OnDataChange listener) {
@@ -36,7 +35,7 @@ public class Main_screen extends ParentWindow implements OnDataChange{
 
     @Override
     public void dataChanged() {
-        select = new Select(handlerDB);
+        Select select = new Select(handlerDB);
         select.selectWithQuery(Query.SELECT_ALL_EMPLOYEE.toString());
         EmployeesTable.setModel(new DefaultTableModel(select.getData(),select.getColumns()));
     }
