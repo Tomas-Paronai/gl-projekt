@@ -1,4 +1,4 @@
-/*
+00/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -369,27 +369,49 @@ public class Add_employee extends ParentWindow {
     }//GEN-LAST:event_jAddResetActionPerformed
 
     private void jAddSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAddSaveActionPerformed
-         insertContactData();
+      insertNewEmployee();
+      
     }//GEN-LAST:event_jAddSaveActionPerformed
+    public void insertNewEmployee(){
+      handler.connect();
+      //insertEmployeeData();
+      //insertAdressData();
+      insertContactData();
+      //insertSalaryData();
+      handler.executeStatement();
+      handler.disconnect();
+}
     //prida udaje do tabulky kontakt
     public void insertContactData(){
-        String name = jAddName.getText();
-        String surname = jAddSurname.getText();
+        handler.prepareStatement(query.getAddToContact());
+        String phone = jAddPhone.getText();
+        String email = jAddEmail.getText();
+        handler.updateStatement(null,phone,email);
         
-        //com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'Tomas' in 'field list'
-        dataHandler.initiateSQLCommand("INSERT INTO employee (`name`,`surname`) VALUES ("+name+","+surname+")", QueryType.INSERT);
-        notifyDataChange();
+        
     }
     //prida udaje do tabulky employee
     public void insertEmployeeData(){
+         handler.prepareStatement(query.getAddToContact());
+        String phone = jAddPhone.getText();
+        String email = jAddEmail.getText();
+        handler.updateStatement("3",phone,email);
         
     }
     //prida udaje do tabulky adrress
     public void insertAdressData(){
+         handler.prepareStatement(query.getAddToContact());
+        String phone = jAddPhone.getText();
+        String email = jAddEmail.getText();
+        handler.updateStatement("3",phone,email);
         
     }
     //prida udaje do tabulky salary
     public void insertSalaryData(){
+         handler.prepareStatement(query.getAddToContact());
+        String phone = jAddPhone.getText();
+        String email = jAddEmail.getText();
+        handler.updateStatement("",phone,email);
         
     }
     
