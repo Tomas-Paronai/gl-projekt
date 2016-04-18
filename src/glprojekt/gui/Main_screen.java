@@ -6,7 +6,6 @@
 package glprojekt.gui;
 
 import glprojekt.api.OnDataChange;
-import glprojekt.api.WindowDataHandler;
 import glprojekt.api.database.Query;
 import glprojekt.api.database.Select;
 import java.awt.BorderLayout;
@@ -23,6 +22,7 @@ import javax.swing.table.DefaultTableModel;
 public class Main_screen extends ParentWindow implements OnDataChange{
 
     private ParentWindow currentWindow;
+    private Select select;
    
     
     public Main_screen(OnDataChange listener) {
@@ -30,14 +30,15 @@ public class Main_screen extends ParentWindow implements OnDataChange{
         initComponents();
         this.getContentPane().setBackground(new Color(106,159,240));
            
-        dataHandler = new WindowDataHandler();
+        //dataHandler = new WindowDataHandler();
         dataChanged();
     }
 
     @Override
     public void dataChanged() {
-        dataHandler.initiateSQLCommand(Query.SELECT_ALL_EMPLOYEE);
-        EmployeesTable.setModel(new DefaultTableModel(dataHandler.getSelect().getData(),dataHandler.getSelect().getColumns()));
+        select = new Select(handlerDB);
+        select.selectWithQuery(Query.SELECT_ALL_EMPLOYEE.toString());
+        EmployeesTable.setModel(new DefaultTableModel(select.getData(),select.getColumns()));
     }
     
     public void openNewWindow(ParentWindow window){

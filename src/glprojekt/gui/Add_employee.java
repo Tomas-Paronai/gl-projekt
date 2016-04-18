@@ -388,12 +388,7 @@ public class Add_employee extends ParentWindow {
     }//GEN-LAST:event_jAddSaveActionPerformed
     //prida udaje do tabulky kontakt
     public void insertContactData() {
-        String name = jAddName.getText();
-        String surname = jAddSurname.getText();
-
-        //com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown column 'Tomas' in 'field list'
-        dataHandler.initiateSQLCommand("INSERT INTO employee (`name`,`surname`) VALUES (" + name + "," + surname + ")", QueryType.INSERT);
-        notifyDataChange();
+        
     }
 
     //prida udaje do tabulky employee
