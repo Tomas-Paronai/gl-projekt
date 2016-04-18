@@ -1,4 +1,4 @@
-package glprojekt.api.database;
+package main.api.database;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -49,11 +49,11 @@ public class HandlerDB {
     public void disconnect(){
         if(dbConnection != null){
             try{
-                 dbConnection.close();
+                dbConnection.close();
             }catch(Exception ex){
                 System.out.println(ex);
             }
-            
+
         }
     }
 
@@ -62,7 +62,7 @@ public class HandlerDB {
      * @param query
      * @return
      */
-    public HashMap<String, ArrayList<String>> executeForResult(String query){
+    public HashMap<String, ArrayList<String>> executeForResult(String query) throws NoResultException {
         Statement st;
         ResultSet res = null;
 
@@ -85,7 +85,15 @@ public class HandlerDB {
                     while(res.next()){
                         values.add(res.getString(columnName));
                     }
-                    result.put(columnName,values);
+
+                    if(values.size() == 0){
+                        throw new NoResultException("Empty set with query "+query);
+                    }
+
+                    else{
+                        result.put(columnName,values);
+                    }
+
 
                     revertResultSet(res);
 
@@ -181,5 +189,13 @@ public class HandlerDB {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public class NoResultException extends Exception {
+
+        public NoResultException(String message){
+            super(message);
+        }
+
     }
 }
