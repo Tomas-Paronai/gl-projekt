@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by tomas on 4/13/2016.
@@ -26,8 +28,13 @@ public class Select{
         HashMap<String,ArrayList<String>> result = null;
 
         if(handlerDB.connect()){
-            result = handlerDB.executeForResult(query);
-            handlerDB.disconnect();
+            try {
+                result = handlerDB.executeForResult(query);
+                handlerDB.disconnect();
+            } catch (HandlerDB.NoResultException ex) {
+                ex.printStackTrace();
+                return;
+            }
         }
 
         if(result != null){
