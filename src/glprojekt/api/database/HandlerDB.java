@@ -144,7 +144,7 @@ public class HandlerDB {
     public void prepareStatement(String query) throws DBHandlerException {
         if(connect()){
             try {
-                statement = dbConnection.prepareStatement(query);
+                statement = dbConnection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -183,6 +183,13 @@ public class HandlerDB {
         if(statement != null){
             try {
                 statement.executeUpdate();
+                
+                ResultSet resultSet = statement.getGeneratedKeys();
+                if(resultSet.next()){
+                    lastInsertedId = resultSet.getInt(1);
+                }
+                resultSet.close();
+                
                 disconnect();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -213,6 +220,11 @@ public class HandlerDB {
         this.password = password;
     }
 
+    public int getLastId() {
+        return lastInsertedId;
+    }
+    
+    
     public class DBHandlerException extends Exception {
 
         public DBHandlerException(String message){
