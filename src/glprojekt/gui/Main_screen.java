@@ -6,7 +6,6 @@
 package glprojekt.gui;
 
 import glprojekt.api.OnDataChange;
-import glprojekt.api.database.Query;
 import glprojekt.api.database.Select;
 import java.awt.BorderLayout;
 
@@ -36,7 +35,7 @@ public class Main_screen extends ParentWindow implements OnDataChange{
     @Override
     public void dataChanged() {
         Select select = new Select(handlerDB);
-        select.selectWithQuery(Query.SELECT_ALL_EMPLOYEE.toString());
+        select.selectWithQuery("SELECT * FROM employee");
         EmployeesTable.setModel(new DefaultTableModel(select.getData(),select.getColumns()));
     }
     

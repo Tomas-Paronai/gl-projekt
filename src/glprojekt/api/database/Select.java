@@ -31,7 +31,7 @@ public class Select{
             try {
                 result = handlerDB.executeForResult(query);
                 handlerDB.disconnect();
-            } catch (HandlerDB.NoResultException ex) {
+            } catch (HandlerDB.DBHandlerException ex) {
                 ex.printStackTrace();
                 return;
             }
