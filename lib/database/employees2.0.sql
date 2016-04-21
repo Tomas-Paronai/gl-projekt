@@ -32,16 +32,15 @@ CREATE TABLE Address(
 	Country varchar(40),
 	City varchar(40),
 	Street varchar(40),
-	`Number` int(10),
 	PostCode int(10),
 	foreign key(EmployeeID) references Employee(EmployeeID) on update cascade on delete cascade
 );
 
 CREATE TABLE Salary(
 	EmployeeID int(15),
+	Salary float(15),
 	Salary_date DATE,
 	Hours float(15),
-	Per_hour_salary float(15),
 	foreign key(EmployeeID) references Employee(EmployeeID) on update cascade on delete cascade
 );
 
@@ -51,8 +50,8 @@ CREATE TABLE Employment_detail(
 	EmployeeID int(15),
 	PositionID int(15),
 	ContractID int(15),
-	Salary float(15),
-	Start_work timestamp,
+	Salary_per_hour float(15),
+	Start_work date,
 	foreign key(EmployeeID) references Employee(EmployeeID) on update cascade on delete cascade,
 	foreign key(PositionID) references `Position`(PositionID) on update cascade on delete cascade,
 	foreign key(ContractID) references Contract(ContractID) on update cascade on delete cascade
@@ -60,8 +59,8 @@ CREATE TABLE Employment_detail(
 
 CREATE TABLE Work_shift (
 	EmployeeID int(15),
-	Enter_time TIME,
-	Exit_time TIME,
+	Enter_time TIMESTAMP,
+	Exit_time TIMESTAMP,
 	foreign key(EmployeeID) references Employee(EmployeeID) on update cascade on delete cascade
 );
 
