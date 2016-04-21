@@ -2,7 +2,7 @@ package glprojekt.gui;
 
 import glprojekt.api.OnDataChange;
 import glprojekt.api.database.HandlerDB;
-import glprojekt.api.database.HandlerDB.NoResultException;
+import glprojekt.api.database.HandlerDB.DBHandlerException;
 import glprojekt.api.database.Search;
 import glprojekt.api.database.Select;
 import glprojekt.gui.Images.queries.Query;

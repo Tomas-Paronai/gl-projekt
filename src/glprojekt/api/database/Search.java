@@ -7,6 +7,8 @@ package glprojekt.api.database;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -41,8 +43,14 @@ public class Search {
                     
                 }
             }
-            select.selectWithQuery(query);
-             table.setModel(new DefaultTableModel(select.getData(),select.getColumns()));
+            try {
+                select.selectWithQuery(query);
+                table.setModel(new DefaultTableModel(select.getData(),select.getColumns()));
+            } catch (HandlerDB.DBHandlerException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null,"No Result found");
+            }
+             
         }
         
     }
