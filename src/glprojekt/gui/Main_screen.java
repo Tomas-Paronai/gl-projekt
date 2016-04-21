@@ -6,11 +6,13 @@
 package glprojekt.gui;
 
 import glprojekt.api.OnDataChange;
-import glprojekt.api.database.Query;
+import glprojekt.api.database.HandlerDB;
 import glprojekt.api.database.Select;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -33,8 +35,13 @@ public class Main_screen extends ParentWindow implements OnDataChange{
     @Override
     public void dataChanged() {
         Select select = new Select(handlerDB);
-        select.selectWithQuery(Query.SELECT_ALL_EMPLOYEE.toString());
-        EmployeesTable.setModel(new DefaultTableModel(select.getData(),select.getColumns()));
+        try {
+            select.selectWithQuery("SELECT * FROM employee");
+            EmployeesTable.setModel(new DefaultTableModel(select.getData(),select.getColumns()));
+        } catch (HandlerDB.DBHandlerException ex) {
+            ex.printStackTrace();
+        }
+        
     }
     
     public void openNewWindow(ParentWindow window){
