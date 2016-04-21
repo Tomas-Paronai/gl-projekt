@@ -5,25 +5,24 @@
  */
 package glprojekt.gui;
 
+
 import glprojekt.api.OnDataChange;
-import glprojekt.api.database.HandlerDB;
-import glprojekt.gui.Images.queries.Query;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 
 /**
  *
  * @author dominik
  */
-public class Add_employee extends ParentWindow {
-
-    HandlerDB handler = new HandlerDB("localhost:3306", "employees", "root", "");
-    Query query = new Query();
+public class Update_employee extends ParentWindow {
 
     /**
      * Creates new form Add_employee
      */
 
-    public Add_employee(OnDataChange aThis) {
-        super(aThis);
+    public Update_employee(OnDataChange aThis) {
+        super(aThis); 
         initComponents();
     }
 
@@ -60,8 +59,8 @@ public class Add_employee extends ParentWindow {
         jLabel23 = new javax.swing.JLabel();
         jAddName = new javax.swing.JTextField();
         jAddCountry = new javax.swing.JTextField();
-        jAddMale = new javax.swing.JRadioButton();
-        jAddFemale = new javax.swing.JRadioButton();
+        jRadioButton1 = new javax.swing.JRadioButton();
+        jRadioButton2 = new javax.swing.JRadioButton();
         jAddStreet = new javax.swing.JTextField();
         jAddSurname = new javax.swing.JTextField();
         jAddNumber = new javax.swing.JTextField();
@@ -72,17 +71,20 @@ public class Add_employee extends ParentWindow {
         jAddEmail = new javax.swing.JTextField();
         jAddWph = new javax.swing.JTextField();
         jAddSalary = new javax.swing.JTextField();
-        jAddSave = new javax.swing.JButton();
-        jAddReset = new javax.swing.JButton();
+        jUpdateSave = new javax.swing.JButton();
+        jUpdateReset = new javax.swing.JButton();
         AddDate = new datechooser.beans.DateChooserCombo();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(503, 1014));
+
         jPanel1.setBackground(new java.awt.Color(106, 159, 240));
-        jPanel1.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel1.setPreferredSize(new java.awt.Dimension(601, 1012));
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        jLabel1.setText("Add employee");
+        jLabel1.setText("Update employee");
 
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel2.setText("Employee");
@@ -142,13 +144,13 @@ public class Add_employee extends ParentWindow {
 
         jAddCountry.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
-        buttonGroup1.add(jAddMale);
-        jAddMale.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jAddMale.setText("Male");
+        buttonGroup1.add(jRadioButton1);
+        jRadioButton1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jRadioButton1.setText("Male");
 
-        buttonGroup1.add(jAddFemale);
-        jAddFemale.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jAddFemale.setText("Female");
+        buttonGroup1.add(jRadioButton2);
+        jRadioButton2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jRadioButton2.setText("Female");
 
         jAddStreet.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
@@ -170,25 +172,28 @@ public class Add_employee extends ParentWindow {
 
         jAddSalary.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
-        jAddSave.setBackground(new java.awt.Color(102, 102, 102));
-        jAddSave.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jAddSave.setForeground(new java.awt.Color(51, 51, 51));
-        jAddSave.setText("Save");
-        jAddSave.addActionListener(new java.awt.event.ActionListener() {
+        jUpdateSave.setBackground(new java.awt.Color(102, 102, 102));
+        jUpdateSave.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jUpdateSave.setForeground(new java.awt.Color(51, 51, 51));
+        jUpdateSave.setText("Update");
+        jUpdateSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jAddSaveActionPerformed(evt);
+                jUpdateSaveActionPerformed(evt);
             }
         });
 
-        jAddReset.setBackground(new java.awt.Color(102, 102, 102));
-        jAddReset.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jAddReset.setForeground(new java.awt.Color(51, 51, 51));
-        jAddReset.setText("Reset");
-        jAddReset.addActionListener(new java.awt.event.ActionListener() {
+        jUpdateReset.setBackground(new java.awt.Color(102, 102, 102));
+        jUpdateReset.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jUpdateReset.setForeground(new java.awt.Color(51, 51, 51));
+        jUpdateReset.setText("Reset");
+        jUpdateReset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jAddResetActionPerformed(evt);
+                jUpdateResetActionPerformed(evt);
             }
         });
+
+        jLabel4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel4.setText("Choose which information you want to update");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -198,44 +203,27 @@ public class Add_employee extends ParentWindow {
                 .addGap(23, 23, 23)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(jLabel20)
-                        .addContainerGap(520, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel22)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel19)
+                                            .addComponent(jLabel18)
                                             .addComponent(jLabel3)
-                                            .addComponent(jLabel9)
                                             .addComponent(jLabel7)
-                                            .addComponent(jLabel8))
-                                        .addGap(46, 46, 46))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel16)
-                                            .addComponent(jLabel13)
+                                            .addComponent(jLabel9)
+                                            .addComponent(jLabel8)
                                             .addComponent(jLabel12)
+                                            .addComponent(jLabel13)
                                             .addComponent(jLabel14)
-                                            .addComponent(jLabel15))
-                                        .addGap(47, 47, 47))
+                                            .addComponent(jLabel15)
+                                            .addComponent(jLabel16))
+                                        .addGap(71, 71, 71))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel23)
-                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jLabel18)
-                                                    .addComponent(jLabel19))
-                                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                                    .addComponent(jLabel21)
-                                                    .addGap(7, 7, 7))))
-                                        .addGap(61, 61, 61)))
+                                        .addComponent(jUpdateSave)
+                                        .addGap(47, 47, 47)))
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
                                     .addComponent(jAddCountry, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jAddStreet, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jAddNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -244,35 +232,50 @@ public class Add_employee extends ParentWindow {
                                     .addComponent(jAddHours, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jAddPostcode, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jAddEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jAddWph, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jAddSalary, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jAddMale)
+                                        .addComponent(jRadioButton1)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jAddFemale))
+                                        .addComponent(jRadioButton2))
                                     .addComponent(jAddSurname, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jAddName, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(AddDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(AddDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jUpdateReset)
+                                        .addComponent(jAddWph, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(43, 43, 43))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel4)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel11)))
+                        .addGap(0, 177, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel21)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel20)
+                                    .addGap(55, 55, 55)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel17)
-                                .addGap(245, 245, 245))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(69, 69, 69)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel11))
-                                .addGap(193, 193, 193))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jAddSave)
-                                .addGap(60, 60, 60)
-                                .addComponent(jAddReset)))
-                        .addGap(0, 261, Short.MAX_VALUE))))
+                                    .addComponent(jLabel22)
+                                    .addComponent(jLabel23)))
+                            .addComponent(jLabel17))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(167, 167, 167)
+                .addComponent(jLabel1)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(51, 51, 51)
+                .addGap(32, 32, 32)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -285,8 +288,8 @@ public class Add_employee extends ParentWindow {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(jAddMale)
-                    .addComponent(jAddFemale))
+                    .addComponent(jRadioButton1)
+                    .addComponent(jRadioButton2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel8)
@@ -313,12 +316,12 @@ public class Add_employee extends ParentWindow {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16)
                     .addComponent(jAddPostcode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(41, 41, 41)
+                .addGap(45, 45, 45)
                 .addComponent(jLabel17)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jAddPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel18))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel18)
+                    .addComponent(jAddPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(10, 10, 10)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel19)
@@ -339,9 +342,9 @@ public class Add_employee extends ParentWindow {
                     .addComponent(jAddWph, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(36, 36, 36)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jAddSave)
-                    .addComponent(jAddReset))
-                .addContainerGap(166, Short.MAX_VALUE))
+                    .addComponent(jUpdateSave)
+                    .addComponent(jUpdateReset))
+                .addContainerGap(158, Short.MAX_VALUE))
         );
 
         jScrollPane1.setViewportView(jPanel1);
@@ -350,18 +353,19 @@ public class Add_employee extends ParentWindow {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 549, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 599, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 882, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 878, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+ 
+    
     private void resetData() {
         jAddName.setText("");
         jAddSurname.setText("");
@@ -378,33 +382,16 @@ public class Add_employee extends ParentWindow {
         jAddSalary.setText("");
         jAddWph.setText("");
     }
-    private void jAddResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAddResetActionPerformed
+    private void jUpdateResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jUpdateResetActionPerformed
         resetData();
-    }//GEN-LAST:event_jAddResetActionPerformed
+    }//GEN-LAST:event_jUpdateResetActionPerformed
 
-    private void jAddSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAddSaveActionPerformed
-        insertContactData();
-    }//GEN-LAST:event_jAddSaveActionPerformed
-    //prida udaje do tabulky kontakt
-    public void insertContactData() {
-        
-    }
+    private void jUpdateSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jUpdateSaveActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jUpdateSaveActionPerformed
 
-    //prida udaje do tabulky employee
-    public void insertEmployeeData() {
-
-    }
-
-    //prida udaje do tabulky adrress
-    public void insertAdressData() {
-
-    }
-
-    //prida udaje do tabulky salary
-    public void insertSalaryData() {
-
-    }
-
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private datechooser.beans.DateChooserCombo AddDate;
@@ -412,16 +399,12 @@ public class Add_employee extends ParentWindow {
     private javax.swing.JTextField jAddCity;
     private javax.swing.JTextField jAddCountry;
     private javax.swing.JTextField jAddEmail;
-    private javax.swing.JRadioButton jAddFemale;
     private javax.swing.JTextField jAddHours;
-    private javax.swing.JRadioButton jAddMale;
     private javax.swing.JTextField jAddName;
     private javax.swing.JTextField jAddNumber;
     private javax.swing.JTextField jAddPhone;
     private javax.swing.JTextField jAddPostcode;
-    private javax.swing.JButton jAddReset;
     private javax.swing.JTextField jAddSalary;
-    private javax.swing.JButton jAddSave;
     private javax.swing.JTextField jAddStreet;
     private javax.swing.JTextField jAddSurname;
     private javax.swing.JTextField jAddWph;
@@ -441,11 +424,17 @@ public class Add_employee extends ParentWindow {
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JRadioButton jRadioButton1;
+    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton jUpdateReset;
+    private javax.swing.JButton jUpdateSave;
     // End of variables declaration//GEN-END:variables
 
+    
 }

@@ -1,15 +1,16 @@
-package glprojekt.api;
+package glprojekt.api.database;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /**
  * Created by tomas on 4/7/2016.
  */
 public class HandlerDB {
 
-    private final String dateFix = "?zeroDateTimeBehavior=convertToNull";
+    private final String dateFix = "?zeroDateTimeBehavior=convertToNull&autoReconnect=true&useSSL=false";
 
     private String url;
     private String database;
@@ -19,6 +20,8 @@ public class HandlerDB {
 
     private Connection dbConnection;
     private PreparedStatement statement;
+    
+    private int lastInsertedId;
 
     /**
      *
@@ -39,14 +42,21 @@ public class HandlerDB {
         try {
             dbConnection = DriverManager.getConnection(url+database+dateFix,user,password);
         } catch (SQLException e) {
+            //System.out.println("error" +e);
+            e.printStackTrace();
             return false;
         }
         return true;
     }
 
-    public void disconnect() throws SQLException {
+    public void disconnect(){
         if(dbConnection != null){
-            dbConnection.close();
+            try{
+                 dbConnection.close();
+            }catch(Exception ex){
+                System.out.println(ex);
+            }
+            
         }
     }
 
@@ -55,11 +65,11 @@ public class HandlerDB {
      * @param query
      * @return
      */
-    public HashMap<String, ArrayList<String>> executeForResult(String query){
+    public HashMap<String, ArrayList<String>> executeForResult(String query) throws DBHandlerException {
         Statement st;
         ResultSet res = null;
 
-        HashMap<String,ArrayList<String>> result = new HashMap<>();
+        HashMap<String,ArrayList<String>> result = new LinkedHashMap<>();
 
         try {
 
@@ -78,7 +88,15 @@ public class HandlerDB {
                     while(res.next()){
                         values.add(res.getString(columnName));
                     }
-                    result.put(columnName,values);
+
+                    if(values.size() == 0){
+                        throw new DBHandlerException("Empty set with query "+query);
+                    }
+
+                    else{
+                        result.put(columnName,values);
+                    }
+
 
                     revertResultSet(res);
 
@@ -98,26 +116,41 @@ public class HandlerDB {
      * Pouzivat na manipulaciu s datami, cize INSERT, UPDATE a DELETE
      * @param query
      */
-    public void executeManipulate(String query){
+    public boolean executeManipulate(String query){
         Statement st;
         try{
 
             if(connect()){
                 st = dbConnection.createStatement();
-                st.executeUpdate(query);
+                st.executeUpdate(query,Statement.RETURN_GENERATED_KEYS);
+
+                ResultSet resultSet = st.getGeneratedKeys();
+                if(resultSet.next()){
+                    lastInsertedId = resultSet.getInt(1);
+                }
+                resultSet.close();
+
                 disconnect();
+                return true;
             }
         }
         catch (SQLException e){
             e.printStackTrace();
         }
+
+        return false;
     }
 
-    public void prepareStatement(String query){
-        try {
-            statement = dbConnection.prepareStatement(query);
-        } catch (SQLException e) {
-            e.printStackTrace();
+    public void prepareStatement(String query) throws DBHandlerException {
+        if(connect()){
+            try {
+                statement = dbConnection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        else{
+            throw new DBHandlerException("Failed to connect!");
         }
     }
 
@@ -136,7 +169,7 @@ public class HandlerDB {
             try{
 
                 for(int i = 1; i <= value.length; i++){
-                    statement.setString(i,value[i]);
+                    statement.setString(i,value[i-1]);
                 }
 
             } catch(SQLException e){
@@ -145,14 +178,26 @@ public class HandlerDB {
 
         }
     }
+    
 
-    public void executeStatement(){
+    public void executeStatement() throws DBHandlerException {
         if(statement != null){
             try {
                 statement.executeUpdate();
+                
+                ResultSet resultSet = statement.getGeneratedKeys();
+                if(resultSet.next()){
+                    lastInsertedId = resultSet.getInt(1);
+                }
+                resultSet.close();
+                
+                disconnect();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+        }
+        else{
+            throw new DBHandlerException("No statement created! Use prepareStatement first!");
         }
     }
 
@@ -174,5 +219,18 @@ public class HandlerDB {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int getLastId() {
+        return lastInsertedId;
+    }
+    
+    
+    public class DBHandlerException extends Exception {
+
+        public DBHandlerException(String message){
+            super(message);
+        }
+
     }
 }
