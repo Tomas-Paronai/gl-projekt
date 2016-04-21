@@ -32,7 +32,7 @@ CREATE TABLE Address(
 	Country varchar(40),
 	City varchar(40),
 	Street varchar(40),
-	PostCode int(10),
+	PostCode varchar(10),
 	foreign key(EmployeeID) references Employee(EmployeeID) on update cascade on delete cascade
 );
 

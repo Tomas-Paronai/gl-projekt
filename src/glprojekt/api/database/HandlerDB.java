@@ -111,6 +111,22 @@ public class HandlerDB {
 
         return result;
     }
+    
+    public HashMap<String,String> executeForSingleLine(String query) throws DBHandlerException{
+        HashMap<String, ArrayList<String>> dbResult = executeForResult(query);
+        HashMap<String,String> result = new HashMap<>();
+        
+        String key = "error";
+        String value = "error in parsing";
+        
+        for(String tmpKey : dbResult.keySet()){
+            key = tmpKey;
+            value = dbResult.get(key).get(0);
+            result.put(key, value);
+        }             
+        
+        return result;
+    }
 
     /**
      * Pouzivat na manipulaciu s datami, cize INSERT, UPDATE a DELETE
