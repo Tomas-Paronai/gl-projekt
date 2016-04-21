@@ -24,17 +24,12 @@ public class Select{
      * Naplni pole columns nazvami stlpcov a 2d-pole data so selectom v poradi ako idu stlpce. Pouzitelne premenne do JTable
      * @param query
      */
-    public void selectWithQuery(String query){
+    public void selectWithQuery(String query) throws HandlerDB.DBHandlerException{
         HashMap<String,ArrayList<String>> result = null;
 
         if(handlerDB.connect()){
-            try {
-                result = handlerDB.executeForResult(query);
-                handlerDB.disconnect();
-            } catch (HandlerDB.DBHandlerException ex) {
-                ex.printStackTrace();
-                return;
-            }
+            result = handlerDB.executeForResult(query);
+            handlerDB.disconnect();
         }
 
         if(result != null){
