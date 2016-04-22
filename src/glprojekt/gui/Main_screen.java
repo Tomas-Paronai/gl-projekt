@@ -6,12 +6,13 @@
 package glprojekt.gui;
 
 import glprojekt.api.OnDataChange;
-import glprojekt.api.database.Query;
+import glprojekt.api.database.HandlerDB;
 import glprojekt.api.database.Select;
 import java.awt.BorderLayout;
-
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -28,16 +29,19 @@ public class Main_screen extends ParentWindow implements OnDataChange{
         super(listener);
         initComponents();
         this.getContentPane().setBackground(new Color(106,159,240));
-           
-        //dataHandler = new WindowDataHandler();
         dataChanged();
     }
 
     @Override
     public void dataChanged() {
         Select select = new Select(handlerDB);
-        select.selectWithQuery(Query.SELECT_ALL_EMPLOYEE.toString());
-        EmployeesTable.setModel(new DefaultTableModel(select.getData(),select.getColumns()));
+        try {
+            select.selectWithQuery("SELECT * FROM employee");
+            EmployeesTable.setModel(new DefaultTableModel(select.getData(),select.getColumns()));
+        } catch (HandlerDB.DBHandlerException ex) {
+            ex.printStackTrace();
+        }
+        
     }
     
     public void openNewWindow(ParentWindow window){
@@ -66,8 +70,6 @@ public class Main_screen extends ParentWindow implements OnDataChange{
         jTable1 = new javax.swing.JTable();
         jMenuItem1 = new javax.swing.JMenuItem();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        employeeByNameTxtField = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         EmployeesTable = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
@@ -101,7 +103,8 @@ public class Main_screen extends ParentWindow implements OnDataChange{
         jLabel27 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
         jLabel29 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        jRefreshButton = new javax.swing.JButton();
+        SearchEmployee = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -125,15 +128,6 @@ public class Main_screen extends ParentWindow implements OnDataChange{
         setBackground(new java.awt.Color(106, 159, 240));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setForeground(java.awt.Color.white);
-
-        jLabel2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel2.setText("Find Employee By name :");
-
-        employeeByNameTxtField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                employeeByNameTxtFieldActionPerformed(evt);
-            }
-        });
 
         EmployeesTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -262,10 +256,17 @@ public class Main_screen extends ParentWindow implements OnDataChange{
 
         jLabel29.setText("jLabel29");
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jRefreshButton.setText("Refresh");
+        jRefreshButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jRefreshButtonActionPerformed(evt);
+            }
+        });
+
+        SearchEmployee.setText("Search Employee");
+        SearchEmployee.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SearchEmployeeActionPerformed(evt);
             }
         });
 
@@ -309,6 +310,8 @@ public class Main_screen extends ParentWindow implements OnDataChange{
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(SearchEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(jLabel1))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -327,22 +330,16 @@ public class Main_screen extends ParentWindow implements OnDataChange{
                                             .addGroup(layout.createSequentialGroup()
                                                 .addGap(72, 72, 72)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addGroup(layout.createSequentialGroup()
-                                                        .addComponent(jLabel28)
-                                                        .addGap(0, 0, Short.MAX_VALUE))
-                                                    .addComponent(jLabel16))
-                                                .addGap(142, 142, 142)))
+                                                    .addComponent(jLabel28)
+                                                    .addComponent(jLabel16))))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGap(85, 85, 85)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jLabel29)
-                                                    .addComponent(jLabel17)))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGap(60, 60, 60)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jLabel11)
-                                                    .addComponent(jLabel23))))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel29)
+                                                .addComponent(jLabel17))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel11)
+                                                .addComponent(jLabel23)))
                                         .addGap(89, 89, 89))))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -376,28 +373,20 @@ public class Main_screen extends ParentWindow implements OnDataChange{
             .addGroup(layout.createSequentialGroup()
                 .addGap(160, 160, 160)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 501, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(employeeByNameTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(34, 34, 34))))
+                    .addComponent(jRefreshButton)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 501, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel2)
-                        .addComponent(employeeByNameTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel1))
-                .addGap(2, 2, 2)
-                .addComponent(jButton1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(22, 22, 22)
+                        .addComponent(jRefreshButton))
+                    .addComponent(SearchEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(46, 46, 46)
@@ -442,7 +431,7 @@ public class Main_screen extends ParentWindow implements OnDataChange{
                     .addComponent(jLabel27)
                     .addComponent(jLabel28)
                     .addComponent(jLabel29))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(mainScrIUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(mainScrDelte, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -453,10 +442,6 @@ public class Main_screen extends ParentWindow implements OnDataChange{
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void employeeByNameTxtFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_employeeByNameTxtFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_employeeByNameTxtFieldActionPerformed
 
     private void mainScrInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mainScrInsertActionPerformed
         openNewWindow(new Add_employee(this));
@@ -482,20 +467,19 @@ public class Main_screen extends ParentWindow implements OnDataChange{
 
     }//GEN-LAST:event_EmployeesTableMouseClicked
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        //        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        //        model.addRow(new Object[]{"2"});
-        //        System.out.println(model.getDataVector());
-        //        model.fireTableDataChanged();
-        //        repaint();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void jRefreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRefreshButtonActionPerformed
+        dataChanged();
+    }//GEN-LAST:event_jRefreshButtonActionPerformed
+
+    private void SearchEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchEmployeeActionPerformed
+        openNewWindow(new Search_Employee(this,EmployeesTable));
+    }//GEN-LAST:event_SearchEmployeeActionPerformed
 
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable EmployeesTable;
-    private javax.swing.JTextField employeeByNameTxtField;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton SearchEmployee;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -507,7 +491,6 @@ public class Main_screen extends ParentWindow implements OnDataChange{
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
@@ -529,6 +512,7 @@ public class Main_screen extends ParentWindow implements OnDataChange{
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JButton jRefreshButton;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;

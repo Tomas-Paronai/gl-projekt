@@ -20,6 +20,8 @@ public class HandlerDB {
 
     private Connection dbConnection;
     private PreparedStatement statement;
+    
+    private int lastInsertedId;
 
     /**
      *
@@ -40,7 +42,8 @@ public class HandlerDB {
         try {
             dbConnection = DriverManager.getConnection(url+database+dateFix,user,password);
         } catch (SQLException e) {
-            System.out.println("error " +e);
+            //System.out.println("error" +e);
+            e.printStackTrace();
             return false;
         }
         return true;
@@ -49,11 +52,11 @@ public class HandlerDB {
     public void disconnect(){
         if(dbConnection != null){
             try{
-                dbConnection.close();
+                 dbConnection.close();
             }catch(Exception ex){
                 System.out.println(ex);
             }
-
+            
         }
     }
 
@@ -62,7 +65,7 @@ public class HandlerDB {
      * @param query
      * @return
      */
-    public HashMap<String, ArrayList<String>> executeForResult(String query) throws NoResultException {
+    public HashMap<String, ArrayList<String>> executeForResult(String query) throws DBHandlerException {
         Statement st;
         ResultSet res = null;
 
@@ -86,8 +89,8 @@ public class HandlerDB {
                         values.add(res.getString(columnName));
                     }
 
-                    if(values.isEmpty()){
-                        throw new NoResultException("Empty set with query "+query);
+                    if(values.size() == 0){
+                        throw new DBHandlerException("Empty set with query "+query);
                     }
 
                     else{
@@ -113,26 +116,41 @@ public class HandlerDB {
      * Pouzivat na manipulaciu s datami, cize INSERT, UPDATE a DELETE
      * @param query
      */
-    public void executeManipulate(String query){
+    public boolean executeManipulate(String query){
         Statement st;
         try{
 
             if(connect()){
                 st = dbConnection.createStatement();
-                st.executeUpdate(query);
+                st.executeUpdate(query,Statement.RETURN_GENERATED_KEYS);
+
+                ResultSet resultSet = st.getGeneratedKeys();
+                if(resultSet.next()){
+                    lastInsertedId = resultSet.getInt(1);
+                }
+                resultSet.close();
+
                 disconnect();
+                return true;
             }
         }
         catch (SQLException e){
             e.printStackTrace();
         }
+
+        return false;
     }
 
-    public void prepareStatement(String query){
-        try {
-            statement = dbConnection.prepareStatement(query);
-        } catch (SQLException e) {
-            e.printStackTrace();
+    public void prepareStatement(String query) throws DBHandlerException {
+        if(connect()){
+            try {
+                statement = dbConnection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        else{
+            throw new DBHandlerException("Failed to connect!");
         }
     }
 
@@ -160,14 +178,26 @@ public class HandlerDB {
 
         }
     }
+    
 
-    public void executeStatement(){
+    public void executeStatement() throws DBHandlerException {
         if(statement != null){
             try {
                 statement.executeUpdate();
+                
+                ResultSet resultSet = statement.getGeneratedKeys();
+                if(resultSet.next()){
+                    lastInsertedId = resultSet.getInt(1);
+                }
+                resultSet.close();
+                
+                disconnect();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+        }
+        else{
+            throw new DBHandlerException("No statement created! Use prepareStatement first!");
         }
     }
 
@@ -191,9 +221,14 @@ public class HandlerDB {
         this.password = password;
     }
 
-    public class NoResultException extends Exception {
+    public int getLastId() {
+        return lastInsertedId;
+    }
+    
+    
+    public class DBHandlerException extends Exception {
 
-        public NoResultException(String message){
+        public DBHandlerException(String message){
             super(message);
         }
 
