@@ -8,11 +8,9 @@ package glprojekt.gui;
 import glprojekt.api.OnDataChange;
 import glprojekt.api.database.HandlerDB;
 import glprojekt.api.database.Select;
-import java.awt.BorderLayout;
+import glprojekt.api.dataholders.Employee;
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -23,7 +21,7 @@ import javax.swing.table.DefaultTableModel;
 public class Main_screen extends ParentWindow implements OnDataChange{
 
     private ParentWindow currentWindow;
-   
+    private ArrayList<Employee> listOfEmployees;
     
     public Main_screen(OnDataChange listener) {
         super(listener);
@@ -34,10 +32,25 @@ public class Main_screen extends ParentWindow implements OnDataChange{
 
     @Override
     public void dataChanged() {
-        Select select = new Select(handlerDB);
+        Select select = new Select(handlerDB);     
+     
         try {
-            select.selectWithQuery("SELECT * FROM employee");
+            
+            String tableQuery = "SELECT firstname,surname,positionname FROM employee "
+                    + "left join employment_detail on employee.employeeid=employment_detail.employeeid "
+                    + "left join `position` on employment_detail.positionid=position.positionid";
+            select.selectWithQuery(tableQuery);            
             EmployeesTable.setModel(new DefaultTableModel(select.getData(),select.getColumns()));
+            
+            String detailQuery = "SELECT * FROM employee "
+                    + "left join address on employee.employeeid=address.employeeid "
+                    + "left join contact on employee.employeeid=contact.employeeid "
+                    + "left join employment_detail on employee.employeeid=employment_detail.employeeid "
+                    + "left join `position` on employment_detail.positionid=position.positionid "
+                    + "left join contract on employment_detail.contractid=contract.contractid";           
+            listOfEmployees = Employee.parseEmployee( handlerDB.executeForResult(detailQuery) );
+            
+            
         } catch (HandlerDB.DBHandlerException ex) {
             ex.printStackTrace();
         }
@@ -91,18 +104,18 @@ public class Main_screen extends ParentWindow implements OnDataChange{
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
-        jLabel19 = new javax.swing.JLabel();
-        jLabel20 = new javax.swing.JLabel();
-        jLabel21 = new javax.swing.JLabel();
-        jLabel22 = new javax.swing.JLabel();
-        jLabel23 = new javax.swing.JLabel();
-        jLabel24 = new javax.swing.JLabel();
-        jLabel25 = new javax.swing.JLabel();
-        jLabel26 = new javax.swing.JLabel();
-        jLabel27 = new javax.swing.JLabel();
-        jLabel28 = new javax.swing.JLabel();
-        jLabel29 = new javax.swing.JLabel();
+        employeeID = new javax.swing.JLabel();
+        employeeName = new javax.swing.JLabel();
+        employeeSurname = new javax.swing.JLabel();
+        employeeDoB = new javax.swing.JLabel();
+        employeeAddress = new javax.swing.JLabel();
+        employeeCity = new javax.swing.JLabel();
+        employeePhone = new javax.swing.JLabel();
+        employeeEmail = new javax.swing.JLabel();
+        employeeHours = new javax.swing.JLabel();
+        employeeHourWage = new javax.swing.JLabel();
+        employeeDoE = new javax.swing.JLabel();
+        employeePosition = new javax.swing.JLabel();
         jRefreshButton = new javax.swing.JButton();
         SearchEmployee = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -232,29 +245,30 @@ public class Main_screen extends ParentWindow implements OnDataChange{
 
         jLabel17.setText("Position");
 
-        jLabel18.setText("jLabel18");
+        employeeID.setText("-");
 
-        jLabel19.setText("jLabel19");
+        employeeName.setText("-");
 
-        jLabel20.setText("jLabel20");
+        employeeSurname.setText("-");
 
-        jLabel21.setText("jLabel21");
+        employeeDoB.setText("-");
 
-        jLabel22.setText("jLabel22");
+        employeeAddress.setText("-");
 
-        jLabel23.setText("jLabel23");
+        employeeCity.setText("-");
 
-        jLabel24.setText("jLabel24");
+        employeePhone.setText("-");
 
-        jLabel25.setText("jLabel25");
+        employeeEmail.setText("-");
+        employeeEmail.setToolTipText("");
 
-        jLabel26.setText("jLabel26");
+        employeeHours.setText("-");
 
-        jLabel27.setText("jLabel27");
+        employeeHourWage.setText("-");
 
-        jLabel28.setText("jLabel28");
+        employeeDoE.setText("-");
 
-        jLabel29.setText("jLabel29");
+        employeePosition.setText("-");
 
         jRefreshButton.setText("Refresh");
         jRefreshButton.addActionListener(new java.awt.event.ActionListener() {
@@ -293,11 +307,11 @@ public class Main_screen extends ParentWindow implements OnDataChange{
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
-                            .addComponent(jLabel18))
+                            .addComponent(employeeID))
                         .addGap(29, 29, 29)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel19)
+                                .addComponent(employeeName)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -305,7 +319,7 @@ public class Main_screen extends ParentWindow implements OnDataChange{
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(23, 23, 23)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel27)
+                                            .addComponent(employeeHourWage)
                                             .addComponent(jLabel15))))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
@@ -318,35 +332,35 @@ public class Main_screen extends ParentWindow implements OnDataChange{
                                             .addGroup(layout.createSequentialGroup()
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addComponent(jLabel8)
-                                                    .addComponent(jLabel20))
+                                                    .addComponent(employeeSurname))
                                                 .addGap(65, 65, 65)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jLabel21)
+                                                    .addComponent(employeeDoB)
                                                     .addComponent(jLabel9))
                                                 .addGap(50, 50, 50)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addComponent(jLabel10)
-                                                    .addComponent(jLabel22)))
+                                                    .addComponent(employeeAddress)))
                                             .addGroup(layout.createSequentialGroup()
                                                 .addGap(72, 72, 72)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jLabel28)
+                                                    .addComponent(employeeDoE)
                                                     .addComponent(jLabel16))))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jLabel29)
+                                                .addComponent(employeePosition)
                                                 .addComponent(jLabel17))
                                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                 .addComponent(jLabel11)
-                                                .addComponent(jLabel23)))
+                                                .addComponent(employeeCity)))
                                         .addGap(89, 89, 89))))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addGap(18, 18, 18)
-                                .addComponent(jLabel26))
+                                .addComponent(employeeHours))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(92, 92, 92)
                                 .addComponent(jLabel14))
@@ -355,10 +369,10 @@ public class Main_screen extends ParentWindow implements OnDataChange{
                                 .addGap(59, 59, 59)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel12)
-                                    .addComponent(jLabel24))
+                                    .addComponent(employeePhone))
                                 .addGap(211, 211, 211)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel25)
+                                    .addComponent(employeeEmail)
                                     .addComponent(jLabel13)))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(mainScrInsert)
@@ -403,12 +417,12 @@ public class Main_screen extends ParentWindow implements OnDataChange{
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel3)
-                        .addComponent(jLabel18)
-                        .addComponent(jLabel19)
-                        .addComponent(jLabel20)
-                        .addComponent(jLabel21))
-                    .addComponent(jLabel22)
-                    .addComponent(jLabel23))
+                        .addComponent(employeeID)
+                        .addComponent(employeeName)
+                        .addComponent(employeeSurname)
+                        .addComponent(employeeDoB))
+                    .addComponent(employeeAddress)
+                    .addComponent(employeeCity))
                 .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
@@ -416,8 +430,8 @@ public class Main_screen extends ParentWindow implements OnDataChange{
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel24)
-                    .addComponent(jLabel25))
+                    .addComponent(employeePhone)
+                    .addComponent(employeeEmail))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
@@ -427,10 +441,10 @@ public class Main_screen extends ParentWindow implements OnDataChange{
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jLabel26)
-                    .addComponent(jLabel27)
-                    .addComponent(jLabel28)
-                    .addComponent(jLabel29))
+                    .addComponent(employeeHours)
+                    .addComponent(employeeHourWage)
+                    .addComponent(employeeDoE)
+                    .addComponent(employeePosition))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(mainScrIUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -457,14 +471,43 @@ public class Main_screen extends ParentWindow implements OnDataChange{
 
     
     private void EmployeesTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EmployeesTableMouseClicked
-        try{
-            int row=EmployeesTable.getSelectedRow();
-
-        }
-        catch(Exception e){
-            JOptionPane.showMessageDialog(null, e);
-        }
-
+        Employee selectedEmployee = listOfEmployees.get(EmployeesTable.getSelectedRow());
+        
+        //id
+        employeeID.setText( String.valueOf(selectedEmployee.getId()) );
+        
+        //name
+        employeeName.setText(selectedEmployee.getFirstName());
+        
+        //surname
+        employeeSurname.setText(selectedEmployee.getSurname());
+        
+        //DoB
+        employeeDoB.setText(selectedEmployee.getDateOfBirth().toString());
+        
+        //address
+        employeeAddress.setText(selectedEmployee.getAddress().getStreet());
+        
+        //city
+        employeeCity.setText(selectedEmployee.getAddress().getCity());
+        
+        //phone
+        employeePhone.setText(selectedEmployee.getContact().getPhone());
+        
+        //emial
+        employeeEmail.setText(selectedEmployee.getContact().getEmail());
+        
+        //salary
+        //TODO
+        
+        //salary/1h
+        employeeHourWage.setText( String.valueOf(selectedEmployee.getEmploymentInforamtion().getHourWage()) );
+        
+        //DoE
+        employeeDoE.setText(selectedEmployee.getEmploymentInforamtion().getEmployedSince().toString());
+        
+        //position
+        employeePosition.setText(selectedEmployee.getEmploymentInforamtion().getPosition());
     }//GEN-LAST:event_EmployeesTableMouseClicked
 
     private void jRefreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRefreshButtonActionPerformed
@@ -480,6 +523,18 @@ public class Main_screen extends ParentWindow implements OnDataChange{
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable EmployeesTable;
     private javax.swing.JButton SearchEmployee;
+    private javax.swing.JLabel employeeAddress;
+    private javax.swing.JLabel employeeCity;
+    private javax.swing.JLabel employeeDoB;
+    private javax.swing.JLabel employeeDoE;
+    private javax.swing.JLabel employeeEmail;
+    private javax.swing.JLabel employeeHourWage;
+    private javax.swing.JLabel employeeHours;
+    private javax.swing.JLabel employeeID;
+    private javax.swing.JLabel employeeName;
+    private javax.swing.JLabel employeePhone;
+    private javax.swing.JLabel employeePosition;
+    private javax.swing.JLabel employeeSurname;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -489,18 +544,6 @@ public class Main_screen extends ParentWindow implements OnDataChange{
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel23;
-    private javax.swing.JLabel jLabel24;
-    private javax.swing.JLabel jLabel25;
-    private javax.swing.JLabel jLabel26;
-    private javax.swing.JLabel jLabel27;
-    private javax.swing.JLabel jLabel28;
-    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
