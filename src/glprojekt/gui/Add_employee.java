@@ -5,7 +5,7 @@ package glprojekt.gui;
 import glprojekt.Main;
 import glprojekt.api.OnDataChange;
 import glprojekt.api.database.HandlerDB;
-import glprojekt.api.database.QueryType;
+
 import glprojekt.gui.Images.queries.QueryD;
 import java.util.Date;
 import java.text.DateFormat;
@@ -32,6 +32,7 @@ public class Add_employee extends ParentWindow {
         private String sex;
         private String birthDate;
         private Date startDate;
+        HandlerDB handler = new HandlerDB(Main.URL,Main.DATABASE,Main.USER,Main.PASS);
        
        
     
@@ -405,25 +406,37 @@ public class Add_employee extends ParentWindow {
         // TODO add your handling code here:
     }//GEN-LAST:event_radioFemaleActionPerformed
     public void insertNewEmployee(){
-      Main.handler.connect();
+      handler.connect();
       insertEmployeeData();
-      //insertAdressData();
-      //insertContactData();
-      //insertSalaryData();
-      Main.handler.executeStatement();
-      Main.handler.disconnect();
+            try {
+                //insertAdressData();
+                //insertContactData();
+                //insertSalaryData();
+                handler.executeStatement();
+            } catch (HandlerDB.DBHandlerException ex) {
+                System.out.println(ex);
+            }
+      handler.disconnect();
 }
     //prida udaje do tabulky kontakt
     public void insertContactData(){
        
-        Main.handler.prepareStatement(query.getAddToContact());
-        Main.handler.updateStatement(null,phone,email);
+            try {
+                handler.prepareStatement(query.getAddToContact());
+            } catch (HandlerDB.DBHandlerException ex) {
+                System.out.println(ex);
+            }
+        handler.updateStatement(null,phone,email);
         
         
     }
     //prida udaje do tabulky employee
     public void insertEmployeeData(){
-         Main.handler.prepareStatement("INSERT INTO employee (FirstName, LastName, gender, Birth_date, Start_date) VALUES (?, ?, ?, ?, ?)");
+            try {
+                handler.prepareStatement("INSERT INTO employee (FirstName, LastName, gender, Birth_date, Start_date) VALUES (?, ?, ?, ?, ?)");
+            } catch (HandlerDB.DBHandlerException ex) {
+                System.out.println(ex);           
+            }
          meno = fieldName.getText();
          priezvisko = fieldSurname.getText();
          if(radioMale.isSelected()){
@@ -434,7 +447,7 @@ public class Add_employee extends ParentWindow {
          }
          birthDate= parseDate(dateBirth.getText());
          
-          Main.handler.updateStatement(meno,priezvisko,sex,birthDate,null);
+          handler.updateStatement(meno,priezvisko,sex,birthDate,null);
          
         
         
