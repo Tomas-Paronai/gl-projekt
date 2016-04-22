@@ -6,7 +6,6 @@
 package glprojekt;
 
 import glprojekt.gui.Add_employee;
-import glprojekt.gui.Delete_employee;
 
 import glprojekt.gui.Login;
 
