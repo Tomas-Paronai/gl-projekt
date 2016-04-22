@@ -1,32 +1,44 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package glprojekt.gui;
 
 
-import glprojekt.api.HandlerDB;
-import glprojekt.gui.Images.queries.Query;
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JLabel;
+import glprojekt.Main;
+import glprojekt.api.OnDataChange;
+import glprojekt.api.database.HandlerDB;
+import glprojekt.api.database.QueryType;
+import glprojekt.gui.Images.queries.QueryD;
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+
 
 /**
  *
  * @author dominik
  */
-public class Add_employee extends javax.swing.JFrame {
+public class Add_employee extends ParentWindow {
 
    
-        HandlerDB handler = new HandlerDB("localhost:3306","employees","root","");
-        Query query = new Query();
-     /**
-     * Creates new form Add_employee
-     */
-    public Add_employee() {
+       
+        QueryD query = new QueryD();
+        private String phone ;
+        private String email;
+        private String meno;
+        private String priezvisko;
+        private String sex;
+        private String birthDate;
+        private Date startDate;
+       
+       
+    
+
+    public Add_employee(OnDataChange aThis) {
+        super(aThis);
         initComponents();
-        
     }
 
     /**
@@ -60,12 +72,12 @@ public class Add_employee extends javax.swing.JFrame {
         jLabel21 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
-        jAddName = new javax.swing.JTextField();
+        fieldName = new javax.swing.JTextField();
         jAddCountry = new javax.swing.JTextField();
-        jAddMale = new javax.swing.JRadioButton();
-        jAddFemale = new javax.swing.JRadioButton();
+        radioMale = new javax.swing.JRadioButton();
+        radioFemale = new javax.swing.JRadioButton();
         jAddStreet = new javax.swing.JTextField();
-        jAddSurname = new javax.swing.JTextField();
+        fieldSurname = new javax.swing.JTextField();
         jAddNumber = new javax.swing.JTextField();
         jAddPhone = new javax.swing.JTextField();
         jAddCity = new javax.swing.JTextField();
@@ -76,7 +88,7 @@ public class Add_employee extends javax.swing.JFrame {
         jAddSalary = new javax.swing.JTextField();
         jAddSave = new javax.swing.JButton();
         jAddReset = new javax.swing.JButton();
-        AddDate = new datechooser.beans.DateChooserCombo();
+        dateBirth = new datechooser.beans.DateChooserCombo();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -140,21 +152,26 @@ public class Add_employee extends javax.swing.JFrame {
         jLabel23.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabel23.setText("Salary:");
 
-        jAddName.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        fieldName.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
         jAddCountry.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
-        buttonGroup1.add(jAddMale);
-        jAddMale.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jAddMale.setText("Male");
+        buttonGroup1.add(radioMale);
+        radioMale.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        radioMale.setText("Male");
 
-        buttonGroup1.add(jAddFemale);
-        jAddFemale.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jAddFemale.setText("Female");
+        buttonGroup1.add(radioFemale);
+        radioFemale.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        radioFemale.setText("Female");
+        radioFemale.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioFemaleActionPerformed(evt);
+            }
+        });
 
         jAddStreet.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
-        jAddSurname.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        fieldSurname.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
         jAddNumber.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
@@ -249,12 +266,12 @@ public class Add_employee extends javax.swing.JFrame {
                                     .addComponent(jAddWph, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jAddSalary, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jAddMale)
+                                        .addComponent(radioMale)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jAddFemale))
-                                    .addComponent(jAddSurname, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jAddName, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(AddDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(radioFemale))
+                                    .addComponent(fieldSurname, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(fieldName, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(dateBirth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel17)
                                 .addGap(245, 245, 245))
@@ -279,20 +296,20 @@ public class Add_employee extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jAddName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(fieldName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jAddSurname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(fieldSurname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(jAddMale)
-                    .addComponent(jAddFemale))
+                    .addComponent(radioMale)
+                    .addComponent(radioFemale))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel8)
-                    .addComponent(AddDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dateBirth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addComponent(jLabel11)
                 .addGap(18, 18, 18)
@@ -365,46 +382,107 @@ public class Add_employee extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jAddResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAddResetActionPerformed
-        // TODO add your handling code here:
+            try {
+                DateFormat dffrom = new SimpleDateFormat("MM/dd/yy");
+                DateFormat dfto = new SimpleDateFormat("yyyy-MM-dd");
+                Date to = dffrom.parse(dateBirth.getText());
+                String s = dfto.format(to);
+                System.out.println(s);
+               
+            } catch (ParseException ex) {
+                System.out.println(ex);
+            }
+                          
+
     }//GEN-LAST:event_jAddResetActionPerformed
 
     private void jAddSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAddSaveActionPerformed
-         insertContactData();
+      insertNewEmployee();
+      
     }//GEN-LAST:event_jAddSaveActionPerformed
+
+    private void radioFemaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioFemaleActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_radioFemaleActionPerformed
+    public void insertNewEmployee(){
+      Main.handler.connect();
+      insertEmployeeData();
+      //insertAdressData();
+      //insertContactData();
+      //insertSalaryData();
+      Main.handler.executeStatement();
+      Main.handler.disconnect();
+}
     //prida udaje do tabulky kontakt
     public void insertContactData(){
-         String phone = jAddPhone.getText();
-         String email = jAddEmail.getText();
-       handler.connect();
-        handler.prepareStatement(query.getAddToContact());
-        handler.updateStatement("3",phone,email);
-        handler.executeStatement();
+       
+        Main.handler.prepareStatement(query.getAddToContact());
+        Main.handler.updateStatement(null,phone,email);
+        
+        
     }
     //prida udaje do tabulky employee
     public void insertEmployeeData(){
+         Main.handler.prepareStatement("INSERT INTO employee (FirstName, LastName, gender, Birth_date, Start_date) VALUES (?, ?, ?, ?, ?)");
+         meno = fieldName.getText();
+         priezvisko = fieldSurname.getText();
+         if(radioMale.isSelected()){
+             sex = "Male";
+         }
+         if(radioFemale.isSelected()){
+             sex = "Female";
+         }
+         birthDate= parseDate(dateBirth.getText());
+         
+          Main.handler.updateStatement(meno,priezvisko,sex,birthDate,null);
+         
+        
         
     }
+    
+    
     //prida udaje do tabulky adrress
-    public void insertAdressData(){
+    
+    /*public void insertAdressData(){
+         handler.prepareStatement(query.getAddToContact());
+        String phone = jAddPhone.getText();
+        String email = jAddEmail.getText();
+        handler.updateStatement("3",phone,email);
         
-    }
+    }*/
     //prida udaje do tabulky salary
-    public void insertSalaryData(){
+   /* public void insertSalaryData(){
+         handler.prepareStatement(query.getAddToContact());
+        /tring phone = jAddPhone.getText();
+        String email = jAddEmail.getText();
+        handler.updateStatement("",phone,email);
         
+    }*/
+    public String parseDate(String date){
+        try {
+                DateFormat dffrom = new SimpleDateFormat("M/dd/yy");
+                DateFormat dfto = new SimpleDateFormat("yyyy-MM-dd");
+                Date to = dffrom.parse(date);
+                String s = dfto.format(to);
+                return s;
+               
+            } catch (ParseException ex) {
+                System.out.println(ex);
+            }
+        return null;
     }
     
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private datechooser.beans.DateChooserCombo AddDate;
     private javax.swing.ButtonGroup buttonGroup1;
+    private datechooser.beans.DateChooserCombo dateBirth;
+    private javax.swing.JTextField fieldName;
+    private javax.swing.JTextField fieldSurname;
     private javax.swing.JTextField jAddCity;
     private javax.swing.JTextField jAddCountry;
     private javax.swing.JTextField jAddEmail;
-    private javax.swing.JRadioButton jAddFemale;
     private javax.swing.JTextField jAddHours;
-    private javax.swing.JRadioButton jAddMale;
-    private javax.swing.JTextField jAddName;
     private javax.swing.JTextField jAddNumber;
     private javax.swing.JTextField jAddPhone;
     private javax.swing.JTextField jAddPostcode;
@@ -412,7 +490,6 @@ public class Add_employee extends javax.swing.JFrame {
     private javax.swing.JTextField jAddSalary;
     private javax.swing.JButton jAddSave;
     private javax.swing.JTextField jAddStreet;
-    private javax.swing.JTextField jAddSurname;
     private javax.swing.JTextField jAddWph;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
@@ -435,6 +512,8 @@ public class Add_employee extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JRadioButton radioFemale;
+    private javax.swing.JRadioButton radioMale;
     // End of variables declaration//GEN-END:variables
 
     

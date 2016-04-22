@@ -5,6 +5,7 @@
  */
 package glprojekt;
 
+import glprojekt.api.database.HandlerDB;
 import glprojekt.gui.Add_employee;
 import glprojekt.gui.Delete_employee;
 
@@ -20,14 +21,20 @@ import glprojekt.gui.Update_employee;
  */
 public class Main {
 
+    public static final String URL = "localhost:3306";
+    public static final String USER = "root";
+    public static final String DATABASE = "employees";
+    public static final String PASS = "";
+     public static  HandlerDB handler;
     /**
      * @param args the command line arguments
      */
 
     public static void main(String[] args) {      
-/*     Login log = new Login();
-     log.setVisible(true);*/
-Main_screen main = new Main_screen();
-main.setVisible(true);
+    /*Login log = new Login();
+        log.setVisible(true);*/
+     handler = new  HandlerDB("localhost:3306","employees","root","");
+        Main_screen main = new Main_screen(null);
+        main.setVisible(true);
     }
 }

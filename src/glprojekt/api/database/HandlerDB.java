@@ -1,8 +1,9 @@
-package glprojekt.api;
+package glprojekt.api.database;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /**
  * Created by tomas on 4/7/2016.
@@ -39,7 +40,7 @@ public class HandlerDB {
         try {
             dbConnection = DriverManager.getConnection(url+database+dateFix,user,password);
         } catch (SQLException e) {
-            System.out.println("error" +e);
+            System.out.println("error " +e);
             return false;
         }
         return true;
@@ -48,11 +49,11 @@ public class HandlerDB {
     public void disconnect(){
         if(dbConnection != null){
             try{
-                 dbConnection.close();
+                dbConnection.close();
             }catch(Exception ex){
                 System.out.println(ex);
             }
-            
+
         }
     }
 
@@ -61,11 +62,11 @@ public class HandlerDB {
      * @param query
      * @return
      */
-    public HashMap<String, ArrayList<String>> executeForResult(String query){
+    public HashMap<String, ArrayList<String>> executeForResult(String query) throws NoResultException {
         Statement st;
         ResultSet res = null;
 
-        HashMap<String,ArrayList<String>> result = new HashMap<>();
+        HashMap<String,ArrayList<String>> result = new LinkedHashMap<>();
 
         try {
 
@@ -84,7 +85,15 @@ public class HandlerDB {
                     while(res.next()){
                         values.add(res.getString(columnName));
                     }
-                    result.put(columnName,values);
+
+                    if(values.isEmpty()){
+                        throw new NoResultException("Empty set with query "+query);
+                    }
+
+                    else{
+                        result.put(columnName,values);
+                    }
+
 
                     revertResultSet(res);
 
@@ -180,5 +189,13 @@ public class HandlerDB {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public class NoResultException extends Exception {
+
+        public NoResultException(String message){
+            super(message);
+        }
+
     }
 }

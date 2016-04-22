@@ -9,15 +9,13 @@ package glprojekt.gui.Images.queries;
  *
  * @author dominik
  */
-public class Query { 
-    private String addToEmployee = "INSERT INTO `employee` "
-                                    +"(`ID`, `Name`, `Surname`, `Sex`, `Birth_date`, `Start_date`)"
-                                    +"VALUES (?, ?, ?, ?, ?,?)";
+public class QueryD { 
+    private String addToEmployee = "INSERT INTO employee (`ID`, `FirstName`, `LastName`, ``Sex``, `Birth_date`, `Start_date`) VALUES (?,?,?,?,?,?)";
     private String addToContact = "INSERT INTO `contact` "
                                     +"(`Employee_id`, `Phone`, `Email`) "
                                     + "VALUES (?,?,?)";
     
-    public Query(){
+    public QueryD(){
         
     }
 
