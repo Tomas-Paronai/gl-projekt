@@ -8,7 +8,6 @@ package glprojekt.gui;
 
 import glprojekt.api.OnDataChange;
 import glprojekt.api.database.HandlerDB;
-import glprojekt.api.database.QueryType;
 import glprojekt.gui.Images.queries.Query;
 
 /**
