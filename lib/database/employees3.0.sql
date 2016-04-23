@@ -1,5 +1,5 @@
-CREATE DATABASE employees;
-USE employees;
+CREATE DATABASE employees2;
+USE employees2;
 
 CREATE TABLE Employee(
 	EmployeeID int(15) PRIMARY KEY auto_increment,

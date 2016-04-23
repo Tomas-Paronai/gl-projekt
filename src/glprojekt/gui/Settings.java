@@ -337,6 +337,8 @@ public class Settings extends ParentWindow{
     private void connectFromBookmark(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectFromBookmark
         DBConnection selectedConn = settingsHandler.getConnections().get(connectionsList.getSelectedIndex());
         if(settingsHandler.connectTo(selectedConn.getUrl(), selectedConn.getDatabase(), selectedConn.getUser(), passwordField2.getText())){
+                settingsHandler.setConnectionSetting(selectedConn.getId(), "active", "true");
+                settingsHandler.setConnectionSetting(selectedConn.getId(), "pass", passwordField2.getText());
                 mesageLabel.setText("Connection successful");                               
             }
             else{

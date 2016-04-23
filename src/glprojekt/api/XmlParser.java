@@ -132,11 +132,7 @@ public class XmlParser {
                 parentElement.appendChild(newElement);
             }
             
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(parsingFile);
-            transformer.transform(source, result);
+            transfromAlg(doc);
             
         } catch (SAXException | IOException | TransformerException ex) {
             ex.printStackTrace();
@@ -157,11 +153,7 @@ public class XmlParser {
                 parentElement.appendChild(newElement);
             }
             
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(parsingFile);
-            transformer.transform(source, result);
+            transfromAlg(doc);
             
         } catch (SAXException | IOException | TransformerException ex) {
             ex.printStackTrace();
@@ -183,11 +175,7 @@ public class XmlParser {
                 parentElement.appendChild(newElement);
             }
             
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(parsingFile);
-            transformer.transform(source, result);
+            transfromAlg(doc);
             
         } catch (SAXException | IOException | TransformerException ex) {
             ex.printStackTrace();
@@ -223,11 +211,7 @@ public class XmlParser {
                 
             }
             
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(parsingFile);
-            transformer.transform(source, result);
+            transfromAlg(doc);
             
         } catch (SAXException | IOException | TransformerException ex) {
             ex.printStackTrace();
@@ -261,19 +245,60 @@ public class XmlParser {
                 
             }
             
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(parsingFile);
-            transformer.transform(source, result);
+            transfromAlg(doc);
             
         } catch (SAXException | IOException | TransformerException ex) {
             ex.printStackTrace();
         }
     }
     
+    public void changeElementValue(String parent, String elName, String id, String elementOfValue, String newValue) {
+        try {
+            
+            Document doc = dBuilder.parse(parsingFile);
+            doc.getDocumentElement().normalize();
+            
+            Element parentElement = (Element) doc.getElementsByTagName(parent).item(0);
+            
+            if(parentElement != null){
+                
+                NodeList elements = parentElement.getElementsByTagName(elName);
+                for(int index = 0; index < elements.getLength(); index++){
+                    Node nNode = elements.item(index);
+                    
+                    if(nNode.getNodeType() == Node.ELEMENT_NODE){                        
+                        Element dataElement = (Element) nNode;
+                        
+                        if(dataElement.getAttribute("id").equals(id)){
+                            Element valueElement = (Element) dataElement.getElementsByTagName(elementOfValue).item(0);
+                            if(valueElement != null){
+                                valueElement.setTextContent(newValue);
+                            } 
+                            break;
+                        }                                              
+                        
+                    }
+                }
+                
+            }
+            
+            transfromAlg(doc);
+            
+        }catch (SAXException | IOException | TransformerException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
     public ArrayList<DBConnection> getConnectionsArrayList() {
         return connectionsArrayList;
+    }
+    
+    private void transfromAlg(Document doc) throws TransformerException{
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        DOMSource source = new DOMSource(doc);
+        StreamResult result = new StreamResult(parsingFile);
+        transformer.transform(source, result);
     }
     
     public static void createFile(File file) throws ParserConfigurationException, TransformerConfigurationException, TransformerException{
@@ -289,4 +314,6 @@ public class XmlParser {
         StreamResult result = new StreamResult(file);
         transformer.transform(source, result);
     }
+
+    
 }

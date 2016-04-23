@@ -67,8 +67,8 @@ public class SettingsHandler {
     
     public boolean connectTo(String url, String db, String user, String pass){
         connectedDB = new HandlerDB(url,db,user,pass);
-        if(connectedDB.connect()){   
-            
+        if(connectedDB.connect()){            
+            setConnectionsFalse();
             connectedDB.disconnect();
             return true;
         }
@@ -129,6 +129,10 @@ public class SettingsHandler {
     private void setConnectionsFalse() {
         parser.changeElementValue("connections", "db_connection", "active", "false");
         parser.changeElementValue("connections", "db_connection", "pass", "-");
+    }
+    
+    public void setConnectionSetting(String id, String elementOfValue, String newValue){
+        parser.changeElementValue("connections", "db_connection", id, elementOfValue, newValue);
     }
 
     private void connectToActive() {
