@@ -21,9 +21,7 @@ import javax.swing.table.DefaultTableModel;
 public class Main_screen extends ParentWindow implements OnDataChange {
 
     private ParentWindow currentWindow;
-    private ArrayList<Employee> listOfEmployees;
-    
-HandlerDB handler = new HandlerDB("localhost:3306", "employees", "root", "");
+    private ArrayList<Employee> listOfEmployees;  
 
     public Main_screen(OnDataChange listener) {
         super(listener);
@@ -51,6 +49,7 @@ HandlerDB handler = new HandlerDB("localhost:3306", "employees", "root", "");
                     + "left join `position` on employment_detail.positionid=position.positionid "
                     + "left join contract on employment_detail.contractid=contract.contractid";
             listOfEmployees = Employee.parseEmployee(handlerDB.executeForResult(detailQuery));
+            System.out.println(listOfEmployees.size());
 
         } catch (HandlerDB.DBHandlerException ex) {
             ex.printStackTrace();
@@ -453,7 +452,7 @@ HandlerDB handler = new HandlerDB("localhost:3306", "employees", "root", "");
         if (reply == JOptionPane.YES_OPTION) {
                String id = getIdForDelete();
                String query ="DELETE  FROM employee where employeeId like '"+id+"'";
-               if(handler.executeManipulate(query)){
+               if(handlerDB.executeManipulate(query)){
                   JOptionPane.showMessageDialog(null,"Employee has been deleted");
                   dataChanged();
                }
@@ -465,6 +464,7 @@ HandlerDB handler = new HandlerDB("localhost:3306", "employees", "root", "");
 
     private void EmployeesTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EmployeesTableMouseClicked
         Employee selectedEmployee = listOfEmployees.get(EmployeesTable.getSelectedRow());
+        System.out.println(EmployeesTable.getSelectedRow()+" "+selectedEmployee.toString());
         
         //DoB
         employeeDoB.setText(selectedEmployee.getDateOfBirth().toString());
