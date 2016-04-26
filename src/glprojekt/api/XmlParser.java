@@ -76,6 +76,7 @@ public class XmlParser {
                         String user = eElement.getElementsByTagName("user").item(0).getTextContent();
                         String pass = eElement.getElementsByTagName("pass").item(0).getTextContent();
                         String active = eElement.getElementsByTagName("active").item(0).getTextContent();
+                        String bookmark = eElement.getElementsByTagName("bookmark").item(0).getTextContent();
                         
                         DBConnection tmpConn;
                         if(active.equals("true")){
@@ -87,6 +88,10 @@ public class XmlParser {
                         
                         if(!pass.equals("-")){
                             tmpConn.setPassword(pass);
+                        }
+                        
+                        if(!bookmark.equals("")){
+                            tmpConn.setBookmark(bookmark);
                         }
                         connectionsArrayList.add(tmpConn);
                     }
@@ -119,7 +124,7 @@ public class XmlParser {
         }
     }
     
-    public void insertDataElement(String parent, String elName){
+    public boolean insertDataElement(String parent, String elName){
         try {
             
             Document doc = dBuilder.parse(parsingFile);
@@ -133,13 +138,16 @@ public class XmlParser {
             }
             
             transfromAlg(doc);
+            return true;
             
         } catch (SAXException | IOException | TransformerException ex) {
             ex.printStackTrace();
         }
+        
+        return false;
     }
     
-    public void insertDataElement(String parent, String elName, String id){
+    public boolean insertDataElement(String parent, String elName, String id){
         try {
             
             Document doc = dBuilder.parse(parsingFile);
@@ -154,13 +162,16 @@ public class XmlParser {
             }
             
             transfromAlg(doc);
+            return true;
             
         } catch (SAXException | IOException | TransformerException ex) {
             ex.printStackTrace();
         }
+        
+        return false;
     }
     
-    public void insertValueElement(String parent, String elName, String value){
+    public boolean insertValueElement(String parent, String elName, String value){
         try {
             
             Document doc = dBuilder.parse(parsingFile);
@@ -176,13 +187,16 @@ public class XmlParser {
             }
             
             transfromAlg(doc);
+            return true;
             
         } catch (SAXException | IOException | TransformerException ex) {
             ex.printStackTrace();
         }
+        
+        return false;
     }
     
-    public void insertValueElement(String parent, String id, String elName, String value){
+    public boolean insertValueElement(String parent, String id, String elName, String value){
         try {
             
             Document doc = dBuilder.parse(parsingFile);
@@ -212,13 +226,16 @@ public class XmlParser {
             }
             
             transfromAlg(doc);
+            return true;
             
         } catch (SAXException | IOException | TransformerException ex) {
             ex.printStackTrace();
         }
+        
+        return false;
     }
 
-    public void changeElementValue(String parent, String elName, String elementOfValue, String newValue){
+    public boolean changeElementValue(String parent, String elName, String elementOfValue, String newValue){
         try {
             
             Document doc = dBuilder.parse(parsingFile);
@@ -246,13 +263,16 @@ public class XmlParser {
             }
             
             transfromAlg(doc);
+            return true;
             
         } catch (SAXException | IOException | TransformerException ex) {
             ex.printStackTrace();
         }
+        
+        return false;
     }
     
-    public void changeElementValue(String parent, String elName, String id, String elementOfValue, String newValue) {
+    public boolean changeElementValue(String parent, String elName, String id, String elementOfValue, String newValue) {
         try {
             
             Document doc = dBuilder.parse(parsingFile);
@@ -283,10 +303,47 @@ public class XmlParser {
             }
             
             transfromAlg(doc);
+            return true;
             
         }catch (SAXException | IOException | TransformerException ex) {
             ex.printStackTrace();
         }
+        
+        return false;
+    }
+    
+    public boolean removeDataElement(String parent, String elName, String id){
+        try {
+            Document doc = dBuilder.parse(parsingFile);
+            doc.getDocumentElement().normalize();
+            
+            Element parentElement = (Element) doc.getElementsByTagName(parent).item(0);
+            
+            if(parentElement != null){
+                
+                NodeList elements = parentElement.getElementsByTagName(elName);
+                for(int index = 0; index < elements.getLength(); index++){
+                    Node nNode = elements.item(index);
+                    
+                    if(nNode.getNodeType() == Node.ELEMENT_NODE){
+                        Element dataElement = (Element) nNode;
+                        
+                        if(dataElement.getAttribute("id").equals(id)){
+                            parentElement.removeChild(dataElement);
+                        }
+                        
+                    }
+                }
+            }                
+            
+            transfromAlg(doc);
+            return true;
+            
+        } catch (TransformerException | SAXException | IOException ex) {
+            ex.printStackTrace();
+        }
+        
+        return false;
     }
     
     public ArrayList<DBConnection> getConnectionsArrayList() {

@@ -18,6 +18,7 @@ public class DBConnection {
     private String database;
     private String user;
     private String password;
+    private String bookmark;
     private boolean active;
 
     public DBConnection(String id, String url, String database, String user, boolean active) {
@@ -75,7 +76,12 @@ public class DBConnection {
 
     @Override
     public String toString() {
-        return database;
+        if(bookmark == null){
+            return database;
+        }
+        else{
+            return bookmark;
+        }
     }
     
     public static boolean idExists(String id, ArrayList<DBConnection> connections ){
@@ -94,5 +100,10 @@ public class DBConnection {
     public String getPassword() {
         return password;
     }
+
+    public void setBookmark(String bookmark) {
+        this.bookmark = bookmark;
+    }  
+    
     
 }

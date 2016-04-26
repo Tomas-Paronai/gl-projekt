@@ -10,6 +10,7 @@ import glprojekt.api.OnDataChange;
 import glprojekt.api.SettingsHandler;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.ListModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -54,6 +55,8 @@ public class Settings extends ParentWindow{
         databaseLabel1 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         passwordField2 = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         connectButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -103,21 +106,36 @@ public class Settings extends ParentWindow{
         });
 
         urlLabel.setForeground(new java.awt.Color(0, 0, 0));
-        urlLabel.setText("dddddd");
+        urlLabel.setText("-");
+        urlLabel.setToolTipText("");
 
         userLabel.setForeground(new java.awt.Color(0, 0, 0));
-        userLabel.setText("ddddd");
+        userLabel.setText("-");
 
         jLabel7.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel7.setText("User:");
         jLabel7.setToolTipText("");
 
         databaseLabel1.setForeground(new java.awt.Color(0, 0, 0));
-        databaseLabel1.setText("ddddd");
+        databaseLabel1.setText("-");
 
         jLabel8.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel8.setText("Password:");
         jLabel8.setToolTipText("");
+
+        jButton2.setText("Delete");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteBookmark(evt);
+            }
+        });
+
+        jButton3.setText("Edit");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editBookmark(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -127,8 +145,12 @@ public class Settings extends ParentWindow{
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1))
+                        .addGap(0, 39, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton2))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -143,7 +165,7 @@ public class Settings extends ParentWindow{
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(userLabel)
                                     .addComponent(databaseLabel1))))
-                        .addGap(0, 121, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel8)
                         .addGap(9, 9, 9)
@@ -170,7 +192,10 @@ public class Settings extends ParentWindow{
                     .addComponent(jLabel8)
                     .addComponent(passwordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2)
+                    .addComponent(jButton3))
                 .addContainerGap())
         );
 
@@ -326,7 +351,8 @@ public class Settings extends ParentWindow{
     private void connectToDB(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectToDB
         if(urlField.getText() != "" && databaseField.getText() != "" && userField.getText() != ""){
             if(settingsHandler.connectToWithOption(urlField.getText(), databaseField.getText(), userField.getText(), passwordField.getText())){
-                mesageLabel.setText("Connection successful");                               
+                mesageLabel.setText("Connection successful");
+                initBookmarks();
             }
             else{
                mesageLabel.setText("Connection unsuccessful"); 
@@ -339,12 +365,28 @@ public class Settings extends ParentWindow{
         if(settingsHandler.connectTo(selectedConn.getUrl(), selectedConn.getDatabase(), selectedConn.getUser(), passwordField2.getText())){
                 settingsHandler.setConnectionSetting(selectedConn.getId(), "active", "true");
                 settingsHandler.setConnectionSetting(selectedConn.getId(), "pass", passwordField2.getText());
-                mesageLabel.setText("Connection successful");                               
+                mesageLabel.setText("Connection successful.");                               
             }
             else{
-               mesageLabel.setText("Connection unsuccessful"); 
+               mesageLabel.setText("Connection unsuccessful."); 
             }
     }//GEN-LAST:event_connectFromBookmark
+
+    private void deleteBookmark(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBookmark
+        DBConnection selectedConn = settingsHandler.getConnections().get(connectionsList.getSelectedIndex());
+        if(JOptionPane.showConfirmDialog(null, "Continue delete "+selectedConn.toString()+" ?", "Delete", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+            ((DefaultListModel)connectionsList.getModel()).removeElementAt(connectionsList.getSelectedIndex());
+            if(settingsHandler.deleteConnection(selectedConn.getId())){
+                mesageLabel.setText("Bookmark deleted.");
+                clearSelection();
+                initBookmarks();
+            }
+        }
+    }//GEN-LAST:event_deleteBookmark
+
+    private void editBookmark(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBookmark
+        
+    }//GEN-LAST:event_editBookmark
 
     
 
@@ -355,6 +397,8 @@ public class Settings extends ParentWindow{
     private javax.swing.JTextField databaseField;
     private javax.swing.JLabel databaseLabel1;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -404,5 +448,16 @@ public class Settings extends ParentWindow{
                 }
             }
         });
+        
+        if(!result.isEmpty()){
+            connectionsList.setSelectedIndex(0);
+        }
+    }
+    
+    private void clearSelection(){
+        urlLabel.setText("-");
+        databaseLabel1.setText("-");
+        userLabel.setText("-");
+        connectionsList.clearSelection();
     }
 }

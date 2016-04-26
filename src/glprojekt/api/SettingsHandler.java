@@ -56,7 +56,8 @@ public class SettingsHandler {
         if(connectedDB.connect()){
             
             if(JOptionPane.showConfirmDialog(null, "Save in bookmarks?", "Save", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
-                insertConnection(url,db,user,pass,true);
+                String name = JOptionPane.showInputDialog(null, "Name bookmark.");
+                insertConnection(url,db,user,pass,name,true);
             }           
             
             connectedDB.disconnect();
@@ -83,7 +84,7 @@ public class SettingsHandler {
         return connections;
     }
 
-    private void insertConnection(String url, String db, String user) {
+    private void insertConnection(String url, String db, String user, String bookmark) {
         if(!parser.dataElementExists("connections")){
             parser.insertDataElement("settings", "connections");
         }
@@ -99,11 +100,18 @@ public class SettingsHandler {
         parser.insertValueElement("db_connection", String.valueOf(id), "user", user);
         parser.insertValueElement("db_connection", String.valueOf(id), "pass", "-");
         
+        if(bookmark != null){
+            parser.insertValueElement("db_connection", String.valueOf(id), "bookmark", bookmark);
+        }
+        else{
+            parser.insertValueElement("db_connection", String.valueOf(id), "bookmark", "");
+        }
+        
         parser.reload();
         connections = parser.getConnectionsArrayList(); 
     }
     
-    private void insertConnection(String url, String db, String user, String password, boolean active) {
+    private void insertConnection(String url, String db, String user, String password, String bookmark, boolean active) {
         if(!parser.dataElementExists("connections")){
             parser.insertDataElement("settings", "connections");
         }
@@ -122,6 +130,13 @@ public class SettingsHandler {
         parser.insertValueElement("db_connection", String.valueOf(id), "pass", password);
         parser.insertValueElement("db_connection", String.valueOf(id), "active", "true");
         
+        if(bookmark != null){
+            parser.insertValueElement("db_connection", String.valueOf(id), "bookmark", bookmark);
+        }
+        else{
+            parser.insertValueElement("db_connection", String.valueOf(id), "bookmark", "");
+        }
+        
         parser.reload();
         connections = parser.getConnectionsArrayList(); 
     }
@@ -134,7 +149,14 @@ public class SettingsHandler {
     public void setConnectionSetting(String id, String elementOfValue, String newValue){
         parser.changeElementValue("connections", "db_connection", id, elementOfValue, newValue);
     }
-
+    
+    public boolean deleteConnection(String id){
+        connections.remove(id);
+        boolean tmpBool = parser.removeDataElement("connections", "db_connection", id);
+        parser.reload();
+        return tmpBool;
+    }
+    
     private void connectToActive() {
         for(DBConnection tmpConn : connections){
             if(tmpConn.isActive()){
