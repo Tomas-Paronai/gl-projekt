@@ -6,12 +6,12 @@
 package glprojekt;
 
 import glprojekt.gui.Add_employee;
-import glprojekt.gui.Delete_employee;
 
 import glprojekt.gui.Login;
 
 import glprojekt.gui.Main_screen;
 import glprojekt.gui.Search_Employee;
+import glprojekt.gui.Settings;
 
 import glprojekt.gui.Update_employee;
 
@@ -30,12 +30,13 @@ public class Main {
      */
 
     public static void main(String[] args) {      
-    /*Login log = new Login();
-        log.setVisible(true);*/
-       Main_screen main = new Main_screen(null);
-        main.setVisible(true);
+        Login log = new Login();
+        log.setVisible(true);
+       //Main_screen main = new Main_screen(null);
+        //main.setVisible(true);
        /*Search_Employee s = new Search_Employee();
        s.setVisible(true);*/
-       
+       //Settings settings = new Settings();
+       //settings.setVisible(true);
     }
 }
