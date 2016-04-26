@@ -59,6 +59,12 @@ CREATE TABLE Employment_detail(
 
 CREATE TABLE Work_shift (
 	EmployeeID int(15),
+	Check_time TIMESTAMP,
+	foreign key(EmployeeID) references Employee(EmployeeID) on update cascade on delete cascade
+);
+
+CREATE TABLE Past_shift(
+	EmployeeID int(15),
 	Enter_time TIMESTAMP,
 	Exit_time TIMESTAMP,
 	foreign key(EmployeeID) references Employee(EmployeeID) on update cascade on delete cascade
@@ -68,6 +74,27 @@ CREATE TABLE `login`(
 	Username varchar(20) not null unique,
 	Password varchar(30) not null
 );
+
+CREATE TABLE Hours(
+	EmployeeID int(15),
+	Hours int(15),
+	Since DATE,
+	foreign key(EmployeeID) references Employee(EmployeeID) on update cascade
+);
+
+delimiter //
+create trigger sum_hours
+after update on work_shift
+for each row
+	begin
+		declare tmp_time int(11);
+		set tmp_time = (SELECT time_to_sec(timediff(new.check_time, old.check_time))/3600);
+		if (select exists(select 1 from hours where employeeid=old.employeeid)) != '0'
+			then update hours set hours=hours+tmp_time where employeeid=old.employeeid;
+		else insert into hours values (old.employeeid, tmp_time);
+		end if;
+	end; //
+delimiter ;
 
 INSERT INTO `login` VALUES ('admin','admin');
 
