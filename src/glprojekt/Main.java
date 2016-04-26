@@ -7,6 +7,7 @@ package glprojekt;
 
 import glprojekt.gui.Add_employee;
 
+
 import glprojekt.gui.Login;
 
 import glprojekt.gui.Main_screen;
@@ -23,7 +24,7 @@ public class Main {
 
     public static final String URL = "localhost:3306";
     public static final String USER = "root";
-    public static final String DATABASE = "employees";
+    public static final String DATABASE = "employees2";
     public static final String PASS = "";
     /**
      * @param args the command line arguments
@@ -32,6 +33,8 @@ public class Main {
     public static void main(String[] args) {      
         Login log = new Login();
         log.setVisible(true);
+        
+        /*
        //Main_screen main = new Main_screen(null);
         //main.setVisible(true);
        /*Search_Employee s = new Search_Employee();

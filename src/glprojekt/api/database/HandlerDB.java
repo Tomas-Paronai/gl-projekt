@@ -1,9 +1,13 @@
 package glprojekt.api.database;
 
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * Created by tomas on 4/7/2016.
@@ -17,7 +21,7 @@ public class HandlerDB {
     private String user;
     private String password;
     private String driver;
-
+    private ResultSet result;
     private Connection dbConnection;
     private PreparedStatement statement;
     
@@ -179,6 +183,7 @@ public class HandlerDB {
             }
         }
     }
+    
 
     public void updateStatement(String... value){
         if(statement != null){
@@ -192,6 +197,16 @@ public class HandlerDB {
                 e.printStackTrace();
             }
 
+        }
+    }
+    
+    public void executeUpdate(){
+         if(statement != null){
+            try {
+                statement.executeUpdate();    
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
     
@@ -215,6 +230,82 @@ public class HandlerDB {
         else{
             throw new DBHandlerException("No statement created! Use prepareStatement first!");
         }
+    }
+    //vrati arraylist stringov contract info
+     public List<String> getContractInfo(){
+         
+        List<String> list = new ArrayList();
+        try{
+              if(connect()){
+                  prepareStatement("SELECT *from contract");
+                  result = statement.executeQuery();
+                  while(result.next()){
+                      int id = result.getInt("ContractID");
+                      String name = result.getString("contract_type");
+                      list.add(id+" "+name);
+                  }
+                    return list;
+              }
+             
+        }catch(Exception ex){
+            System.out.println(ex);
+        }
+        return null;
+    }
+      //vrati arraylist stringov possition info
+     public List<String> getPossInfo(){
+         
+        List<String> list = new ArrayList();
+        try{
+              if(connect()){
+                  prepareStatement("SELECT *from position");
+                  result = statement.executeQuery();
+                  while(result.next()){
+                      int id = result.getInt("PositionID");
+                      String name = result.getString("positionName");
+                      list.add(id+" "+name);
+                  }
+                    return list;
+              }
+             
+        }catch(Exception ex){
+            System.out.println(ex);
+        }
+        return null;
+    }
+     
+     //prijme datum z formularu a mm/dd/yyyy a zmeni ho na format yyyy/mm/dd
+      public String parseDate(String date){
+        try {
+                DateFormat dffrom = new SimpleDateFormat("M/dd/yy");
+                DateFormat dfto = new SimpleDateFormat("yyyy-MM-dd");
+                java.util.Date to = dffrom.parse(date);
+                String s = dfto.format(to);
+                return s;
+               
+            } catch (ParseException ex) {
+                System.out.println(ex);
+            }
+        return null;
+    }
+       public int getLastID(){
+           int id = 0;
+            try{
+              if(connect()){
+                  prepareStatement("SELECT employeeID from employee order by employeeID desc limit 1");
+                  result = statement.executeQuery();
+                  while(result.next()){
+                      id = result.getInt("employeeID");
+                  }
+                    return id;
+              }
+             
+        }catch(Exception ex){
+            System.out.println(ex);
+        }
+            return -1;
+           
+        
     }
 
     private void revertResultSet(ResultSet set) throws SQLException {
