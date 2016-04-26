@@ -105,6 +105,13 @@ public class Employee {
     public EmploymentInforamtion getEmploymentInforamtion() {
         return employmentInforamtion;
     }
+
+    @Override
+    public String toString() {
+        return firstName+" "+surname;
+    }
+    
+    
     
     public static ArrayList<Employee> parseEmployee(HashMap<String,ArrayList<String>> resultSet){
         ArrayList<Employee> result = new ArrayList<>();

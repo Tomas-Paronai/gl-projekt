@@ -42,9 +42,9 @@ public class Search_Employee extends ParentWindow {
         jSearchId = new javax.swing.JTextField();
         jSearchSurname = new javax.swing.JTextField();
         jSearchName = new javax.swing.JTextField();
-        jSearchSex = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jSearchButton = new javax.swing.JButton();
+        jComboBoxGender = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -54,7 +54,7 @@ public class Search_Employee extends ParentWindow {
 
         jLabel3.setText("Surname :");
 
-        jLabel4.setText("Sex :");
+        jLabel4.setText("Gender :");
 
         jLabel5.setText("Search employees");
 
@@ -64,6 +64,8 @@ public class Search_Employee extends ParentWindow {
                 jSearchButtonActionPerformed(evt);
             }
         });
+
+        jComboBoxGender.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -78,12 +80,16 @@ public class Search_Employee extends ParentWindow {
                             .addComponent(jLabel3)
                             .addComponent(jLabel2)
                             .addComponent(jLabel4))
-                        .addGap(63, 63, 63)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jSearchId)
-                            .addComponent(jSearchSurname)
-                            .addComponent(jSearchName)
-                            .addComponent(jSearchSex, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(63, 63, 63)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jSearchId, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
+                                    .addComponent(jSearchSurname)
+                                    .addComponent(jSearchName)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jComboBoxGender, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(71, 71, 71)
                         .addComponent(jSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -111,7 +117,7 @@ public class Search_Employee extends ParentWindow {
                 .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jSearchSex, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBoxGender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(18, Short.MAX_VALUE))
@@ -130,6 +136,7 @@ public class Search_Employee extends ParentWindow {
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> jComboBoxGender;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -138,7 +145,6 @@ public class Search_Employee extends ParentWindow {
     private javax.swing.JButton jSearchButton;
     private javax.swing.JTextField jSearchId;
     private javax.swing.JTextField jSearchName;
-    private javax.swing.JTextField jSearchSex;
     private javax.swing.JTextField jSearchSurname;
     // End of variables declaration//GEN-END:variables
 
@@ -146,26 +152,26 @@ public class Search_Employee extends ParentWindow {
         if (jSearchId.getText().isEmpty() == false) {
             String id = jSearchId.getText().toString();
             HashMap<String, String> tmpHash = new HashMap<String, String>();
-            tmpHash.put("id", id);
+            tmpHash.put("EmployeeID", id);
             result.add(tmpHash);
         }
         if(jSearchName.getText().isEmpty()==false){
            String name = jSearchName.getText(); 
            HashMap<String, String> tmpHash = new HashMap<String, String>();
-           tmpHash.put("name", name);
+           tmpHash.put("FirstName", name);
             result.add(tmpHash);
         }
         
         if(jSearchSurname.getText().isEmpty()==false){
            String surname = jSearchSurname.getText(); 
            HashMap<String, String> tmpHash = new HashMap<String, String>();
-           tmpHash.put("Surname", surname);
+           tmpHash.put("SurName", surname);
             result.add(tmpHash);
         }
-        if(jSearchSex.getText().isEmpty()==false){
-           String sex = jSearchSex.getText(); 
+        if(jComboBoxGender.getSelectedItem() != null){
+           String gender = jComboBoxGender.getSelectedItem().toString();
            HashMap<String, String> tmpHash = new HashMap<String, String>();
-           tmpHash.put("Sex", sex);
+           tmpHash.put("Gender", gender);
             result.add(tmpHash);
         }
         if (result.isEmpty() == false) {
