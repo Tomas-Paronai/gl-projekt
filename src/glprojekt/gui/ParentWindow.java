@@ -22,6 +22,14 @@ public abstract class ParentWindow  extends javax.swing.JFrame{
         handlerDB = new HandlerDB(Main.URL,Main.DATABASE,Main.USER,Main.PASS);
         this.listener = listener;        
     }
+
+    public ParentWindow() {
+        handlerDB = new HandlerDB(Main.URL,Main.DATABASE,Main.USER,Main.PASS);
+    }
+
+    public void setListener(OnDataChange listener) {
+        this.listener = listener;
+    }     
     
     public void notifyDataChange(){
         if(listener != null){
