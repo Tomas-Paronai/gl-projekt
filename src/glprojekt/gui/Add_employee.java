@@ -73,8 +73,8 @@ public class Add_employee extends ParentWindow {
         jLabel26 = new javax.swing.JLabel();
         comboBoxContract = new javax.swing.JComboBox<>();
         comboBoxPosition = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        buttonSave = new javax.swing.JButton();
+        buttonCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -164,17 +164,17 @@ public class Add_employee extends ParentWindow {
         jLabel26.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabel26.setText("Position:");
 
-        jButton1.setText("Save");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        buttonSave.setText("Save");
+        buttonSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                buttonSaveActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Cancel");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        buttonCancel.setText("Cancel");
+        buttonCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                buttonCancelActionPerformed(evt);
             }
         });
 
@@ -267,9 +267,9 @@ public class Add_employee extends ParentWindow {
                         .addComponent(jLabel1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(301, 301, 301)
-                        .addComponent(jButton1)
+                        .addComponent(buttonSave)
                         .addGap(63, 63, 63)
-                        .addComponent(jButton2)))
+                        .addComponent(buttonCancel)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -334,8 +334,8 @@ public class Add_employee extends ParentWindow {
                     .addComponent(comboBoxPosition, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(81, 81, 81)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(buttonSave)
+                    .addComponent(buttonCancel))
                 .addContainerGap(235, Short.MAX_VALUE))
         );
 
@@ -357,35 +357,27 @@ public class Add_employee extends ParentWindow {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
-        int reply = JOptionPane.showConfirmDialog(null, "Do you want to add this employee?", "Close?", JOptionPane.YES_NO_OPTION);
-        if (reply == JOptionPane.YES_OPTION) {
-            insertNewEmployee();
+    private void buttonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveActionPerformed
+           insertNewEmployee();
             JOptionPane.showMessageDialog(null, "Employee has been added");
-        }
-        
-        if (reply == JOptionPane.NO_OPTION) {
-            this.dispose();
-        }
+            reset();
 
-        //System.out.println(handler.getLastID());
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_buttonSaveActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void buttonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCancelActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_buttonCancelActionPerformed
     //funkcia vlozi vsetky informacie o zamestnancovi
     public void insertNewEmployee() {
         insertEmployeeData();
-        handler.executeUpdate();
         String id = String.valueOf(handler.getLastID());
         insertContactData(id);
-        insertAdressData(id);
+        insertAdressData(id);      
         insertDetailData(id);
-        if (handler.executeUpdate()) {
+        
+       /* if (handler.executeUpdate()) {
             notifyDataChange();
-        }
+        }*/
         handler.disconnect();
     }
 
@@ -396,6 +388,7 @@ public class Add_employee extends ParentWindow {
             String phone = fieldPhone.getText();
             String email = fieldEmail.getText();
             handler.updateStatement(id, phone, email);
+            handler.executeUpdate();
         } catch (HandlerDB.DBHandlerException ex) {
             System.out.println(ex);
         }
@@ -431,6 +424,7 @@ public class Add_employee extends ParentWindow {
             String street = fieldStreet.getText();
             String postcode = fieldPostcode.getText();
             handler.updateStatement(id, country, city, street, postcode);
+            handler.executeUpdate();
         } catch (HandlerDB.DBHandlerException ex) {
             System.out.println("adresa: " + ex);
         }
@@ -446,8 +440,8 @@ public class Add_employee extends ParentWindow {
             //contract id sa nachadza na nultej pozici
             String[] contract = contractID.split(" ");
             String[] position = positionID.split(" ");
-
             handler.updateStatement(id, position[0], contract[0], wagePerH, startDate);
+            handler.executeUpdate();
         } catch (HandlerDB.DBHandlerException ex) {
             System.out.println("detail:" + ex);
         }
@@ -468,10 +462,23 @@ public class Add_employee extends ParentWindow {
             comboBoxPosition.addItem(poss);
         }
     }
+    public void reset(){
+        fieldCity.setText("");
+        fieldCountry.setText("");
+        fieldPhone.setText("");
+        fieldEmail.setText("");
+        fieldPostcode.setText("");
+        fieldName.setText("");
+        fieldStreet.setText("");
+        fieldSurname.setText("");
+        fieldWPH.setText("");
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton buttonCancel;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JButton buttonSave;
     private javax.swing.JComboBox<String> comboBoxContract;
     private javax.swing.JComboBox<String> comboBoxPosition;
     private datechooser.beans.DateChooserCombo dateBirth;
@@ -485,8 +492,6 @@ public class Add_employee extends ParentWindow {
     private javax.swing.JTextField fieldStreet;
     private javax.swing.JTextField fieldSurname;
     private javax.swing.JTextField fieldWPH;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
