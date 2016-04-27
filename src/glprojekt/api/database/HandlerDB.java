@@ -200,14 +200,16 @@ public class HandlerDB {
         }
     }
     
-    public void executeUpdate(){
+    public boolean executeUpdate(){
          if(statement != null){
             try {
-                statement.executeUpdate();    
+                statement.executeUpdate();   
+                return true;
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
+         return false;
     }
     
 
@@ -275,9 +277,9 @@ public class HandlerDB {
     }
      
      //prijme datum z formularu a mm/dd/yyyy a zmeni ho na format yyyy/mm/dd
-      public String parseDate(String date){
+      public String parseDateFromField(String date){
         try {
-                DateFormat dffrom = new SimpleDateFormat("M/dd/yy");
+                DateFormat dffrom = new SimpleDateFormat("MM/dd/yy");
                 DateFormat dfto = new SimpleDateFormat("yyyy-MM-dd");
                 java.util.Date to = dffrom.parse(date);
                 String s = dfto.format(to);
@@ -288,7 +290,7 @@ public class HandlerDB {
             }
         return null;
     }
-       public int getLastID(){
+      public int getLastID(){
            int id = 0;
             try{
               if(connect()){

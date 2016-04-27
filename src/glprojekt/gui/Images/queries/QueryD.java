@@ -11,9 +11,7 @@ package glprojekt.gui.Images.queries;
  */
 public class QueryD { 
     private String addToEmployee = "INSERT INTO employee (`ID`, `FirstName`, `LastName`, ``Sex``, `Birth_date`, `Start_date`) VALUES (?,?,?,?,?,?)";
-    private String addToContact = "INSERT INTO `contact` "
-                                    +"(`Employee_id`, `Phone`, `Email`) "
-                                    + "VALUES (?,?,?)";
+    private String addToContact = "INSERT INTO  contact(`Employee_id`, `Phone`, `Email`) VALUES (?,?,?)";
     
     public QueryD(){
         
