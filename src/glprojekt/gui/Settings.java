@@ -72,7 +72,7 @@ public class Settings extends ParentWindow{
         saveButton = new javax.swing.JButton();
         mesageLabel = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jTabbedPane2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -105,18 +105,15 @@ public class Settings extends ParentWindow{
             }
         });
 
-        urlLabel.setForeground(new java.awt.Color(0, 0, 0));
         urlLabel.setText("-");
         urlLabel.setToolTipText("");
 
-        userLabel.setForeground(new java.awt.Color(0, 0, 0));
         userLabel.setText("-");
 
         jLabel7.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel7.setText("User:");
         jLabel7.setToolTipText("");
 
-        databaseLabel1.setForeground(new java.awt.Color(0, 0, 0));
         databaseLabel1.setText("-");
 
         jLabel8.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N

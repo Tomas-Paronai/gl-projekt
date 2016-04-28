@@ -118,6 +118,8 @@ public class Main_screen extends ParentWindow implements OnDataChange {
         employeeHourWage = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         employeeDoE = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -361,6 +363,21 @@ public class Main_screen extends ParentWindow implements OnDataChange {
 
         jTabbedPane4.addTab("Work Info", jPanel1);
 
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Arrival time", "Leaving time", "Hours Worked (day)"
+            }
+        ));
+        jScrollPane3.setViewportView(jTable2);
+
+        jTabbedPane4.addTab("Attendance", jScrollPane3);
+
         jMenuBar1.setBackground(new java.awt.Color(106, 159, 240));
         jMenuBar1.setForeground(new java.awt.Color(255, 255, 255));
 
@@ -533,8 +550,10 @@ public class Main_screen extends ParentWindow implements OnDataChange {
     private javax.swing.JButton jRefreshButton;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane4;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
     private javax.swing.JButton mainScrDelte;
     private javax.swing.JButton mainScrIUpdate;
     private javax.swing.JButton mainScrInsert;
