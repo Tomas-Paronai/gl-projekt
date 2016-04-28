@@ -1,3 +1,5 @@
+INSERT INTO `login` VALUES ('admin','admin');
+
 INSERT INTO `position` (positionname) VALUES
 ('Chief Executive Officer'),('Chief Operating Officer'),('Chief Financial Officer'),
 ('Marketing Manager'),('Production Manager'),('Operations Manager'),

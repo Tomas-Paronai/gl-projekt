@@ -1,5 +1,5 @@
-CREATE DATABASE employees2;
-USE employees2;
+CREATE DATABASE employees;
+USE employees;
 
 CREATE TABLE Employee(
 	EmployeeID int(15) PRIMARY KEY auto_increment,
@@ -58,8 +58,9 @@ CREATE TABLE Employment_detail(
 );
 
 CREATE TABLE Work_shift (
-	EmployeeID int(15),
+	EmployeeID int(15) unique,
 	Check_time TIMESTAMP,
+	`Type` ENUM('IN','OUT'),
 	foreign key(EmployeeID) references Employee(EmployeeID) on update cascade on delete cascade
 );
 
@@ -83,17 +84,21 @@ CREATE TABLE Hours(
 );
 
 delimiter //
-create trigger sum_hours
-after update on work_shift
-for each row
-	begin
-		declare tmp_time int(11);
-		set tmp_time = (SELECT time_to_sec(timediff(new.check_time, old.check_time))/3600);
-		if (select exists(select 1 from hours where employeeid=old.employeeid)) != '0'
-			then update hours set hours=hours+tmp_time where employeeid=old.employeeid;
-		else insert into hours values (old.employeeid, tmp_time);
-		end if;
-	end; //
+CREATE TRIGGER sum_hours AFTER UPDATE ON work_shift FOR EACH ROW
+BEGIN
+IF new.`type`='OUT' THEN
+BEGIN
+DECLARE tmp_time INT(5);
+SET tmp_time = (SELECT time_to_sec(timediff(new.Check_time, old.Check_time))/3600);
+IF (SELECT EXISTS(SELECT 1 FROM Hours WHERE Hours.EmployeeID=OLD.EmployeeID)) != '0' THEN
+UPDATE Hours set Hours=Hours+tmp_time WHERE EmployeeID=OLD.EmployeeID;
+ELSE 
+INSERT INTO Hours VALUES (OLD.EmployeeID, tmp_time, NEW.Check_time);
+END IF;
+INSERT INTO Past_shift VALUES (OLD.EmployeeID, OLD.Check_time, NEW.Check_time);
+END;
+END IF;
+END; //
 delimiter ;
 
 INSERT INTO `login` VALUES ('admin','admin');
