@@ -24,6 +24,7 @@ public class SettingsHandler {
     private HandlerDB connectedDB;
     private File settingsFile;
     private XmlParser parser;
+    private boolean loggedin;
     
     private ArrayList<DBConnection> connections;
     
@@ -50,6 +51,18 @@ public class SettingsHandler {
             }
         }
     }
+
+    public SettingsHandler(boolean loggedin) {
+        this();
+        this.loggedin = loggedin;        
+    }
+
+    public boolean isLoggedin() {
+        return loggedin;
+    }
+    
+    
+    
     
     public boolean connectToWithOption(String url, String db, String user, String pass){
         connectedDB = new HandlerDB(url,db,user,pass);

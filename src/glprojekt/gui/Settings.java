@@ -27,6 +27,15 @@ public class Settings extends ParentWindow{
         initComponents();
         settingsHandler = new SettingsHandler();
        
+        initEmail();
+        initBookmarks();       
+    }
+    
+    public Settings(boolean login){
+        initComponents();
+        settingsHandler = new SettingsHandler(login);
+        
+        initEmail();
         initBookmarks();
     }
     
@@ -68,6 +77,10 @@ public class Settings extends ParentWindow{
         databaseField = new javax.swing.JTextField();
         passwordField = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        emailField = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        hostField = new javax.swing.JTextField();
         cancelButton = new javax.swing.JButton();
         saveButton = new javax.swing.JButton();
         mesageLabel = new javax.swing.JLabel();
@@ -188,7 +201,7 @@ public class Settings extends ParentWindow{
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(passwordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2)
@@ -286,7 +299,7 @@ public class Settings extends ParentWindow{
                     .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(connectButton)
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
 
         urlField.getAccessibleContext().setAccessibleName("urlField");
@@ -297,22 +310,53 @@ public class Settings extends ParentWindow{
 
         jTabbedPane1.addTab("Connections", jTabbedPane2);
 
+        jLabel9.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel9.setText("Sender email: ");
+
+        emailField.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+
+        jLabel10.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel10.setText("Sender server: ");
+
+        hostField.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 452, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel9)
+                    .addComponent(emailField)
+                    .addComponent(jLabel10)
+                    .addComponent(hostField, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE))
+                .addContainerGap(183, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 232, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(hostField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(134, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("next tab..", jPanel3);
+        jTabbedPane1.addTab("Email", jPanel3);
 
         cancelButton.setText("Cancel");
 
         saveButton.setText("Save");
+        saveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveSettings(evt);
+            }
+        });
 
         mesageLabel.setToolTipText("");
 
@@ -385,6 +429,10 @@ public class Settings extends ParentWindow{
         
     }//GEN-LAST:event_editBookmark
 
+    private void saveSettings(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveSettings
+        
+    }//GEN-LAST:event_saveSettings
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -393,10 +441,13 @@ public class Settings extends ParentWindow{
     private javax.swing.JList<String> connectionsList;
     private javax.swing.JTextField databaseField;
     private javax.swing.JLabel databaseLabel1;
+    private javax.swing.JTextField emailField;
+    private javax.swing.JTextField hostField;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -404,6 +455,7 @@ public class Settings extends ParentWindow{
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -456,5 +508,12 @@ public class Settings extends ParentWindow{
         databaseLabel1.setText("-");
         userLabel.setText("-");
         connectionsList.clearSelection();
+    }
+    
+    private void initEmail(){
+        if(settingsHandler.isLoggedin()){
+            emailField.setEditable(true);
+            hostField.setEditable(true);
+        }
     }
 }
