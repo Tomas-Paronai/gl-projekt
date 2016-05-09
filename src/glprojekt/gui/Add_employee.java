@@ -77,6 +77,7 @@ public class Add_employee extends ParentWindow {
         buttonCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setLocation(new java.awt.Point(400, 0));
 
         jPanel1.setBackground(new java.awt.Color(106, 159, 240));
         jPanel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -164,6 +165,7 @@ public class Add_employee extends ParentWindow {
         jLabel26.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabel26.setText("Position:");
 
+        buttonSave.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         buttonSave.setText("Save");
         buttonSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -171,6 +173,7 @@ public class Add_employee extends ParentWindow {
             }
         });
 
+        buttonCancel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         buttonCancel.setText("Cancel");
         buttonCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -266,11 +269,11 @@ public class Add_employee extends ParentWindow {
                         .addContainerGap()
                         .addComponent(jLabel1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(301, 301, 301)
-                        .addComponent(buttonSave)
+                        .addGap(250, 250, 250)
+                        .addComponent(buttonSave, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(63, 63, 63)
-                        .addComponent(buttonCancel)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(buttonCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(478, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -374,10 +377,6 @@ public class Add_employee extends ParentWindow {
         insertContactData(id);
         insertAdressData(id);      
         insertDetailData(id);
-        
-       /* if (handler.executeUpdate()) {
-            notifyDataChange();
-        }*/
         handler.disconnect();
     }
 

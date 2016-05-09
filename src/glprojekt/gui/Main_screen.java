@@ -141,6 +141,7 @@ public class Main_screen extends ParentWindow implements OnDataChange {
         setBackground(new java.awt.Color(106, 159, 240));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setForeground(java.awt.Color.white);
+        setLocation(new java.awt.Point(400, 0));
 
         EmployeesTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
