@@ -28,6 +28,7 @@ public class Employee {
     
     private Address address;
     private Contact contact;
+    private ArrayList<Shift> shifts;
     
     private EmploymentInforamtion employmentInforamtion;
 
@@ -109,6 +110,35 @@ public class Employee {
     @Override
     public String toString() {
         return firstName+" "+surname;
+    }
+
+    public ArrayList<Shift> getShifts() {
+        return shifts;
+    }
+
+    public void setShifts(ArrayList<Shift> shifts) {
+        this.shifts = shifts;
+    }
+    
+    public void setShiftsFromRs(HashMap<String,ArrayList<String>> resultSet){
+        shifts = new ArrayList<Shift>();
+        int maxRows = 0;
+        for(String tmpKey : resultSet.keySet()){
+            maxRows = resultSet.get(tmpKey).size();
+            break;
+        }
+        
+        for(int row = 0; row < maxRows; row++){
+            try {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                java.util.Date enterDate = dateFormat.parse(resultSet.get("Enter_time").get(row));
+                java.util.Date exitDate = dateFormat.parse(resultSet.get("Exit_time").get(row));
+                Shift shift = new Shift(new java.sql.Timestamp(enterDate.getTime()),new java.sql.Timestamp(exitDate.getTime()));
+                shifts.add(shift);
+            } catch (ParseException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
     
     

@@ -7,6 +7,7 @@ package glprojekt.gui;
 
 import glprojekt.Main;
 import glprojekt.api.OnDataChange;
+import glprojekt.api.SettingsHandler;
 import glprojekt.api.database.HandlerDB;
 
 /**
@@ -17,14 +18,17 @@ public abstract class ParentWindow  extends javax.swing.JFrame{
 
     private OnDataChange listener;
     protected HandlerDB handlerDB;
+    protected SettingsHandler settingsHandler;
        
-    public ParentWindow(OnDataChange listener){
-        handlerDB = new HandlerDB(Main.URL,Main.DATABASE,Main.USER,Main.PASS);
+    public ParentWindow(OnDataChange listener){        
+        settingsHandler = new SettingsHandler();
+        handlerDB = settingsHandler.getConnection();
         this.listener = listener;        
     }
 
     public ParentWindow() {
-        handlerDB = new HandlerDB(Main.URL,Main.DATABASE,Main.USER,Main.PASS);
+        settingsHandler = new SettingsHandler();
+        handlerDB = settingsHandler.getConnection();
     }
 
     public void setListener(OnDataChange listener) {

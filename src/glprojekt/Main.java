@@ -21,10 +21,10 @@ import glprojekt.gui.Update_employee;
  */
 public class Main {
 
-    public static final String URL = "localhost:3306";
+    /*public static final String URL = "localhost:3306";
     public static final String USER = "root";
     public static final String DATABASE = "employees";
-    public static final String PASS = "";
+    public static final String PASS = "";*/
     /**
      * @param args the command line arguments
      */

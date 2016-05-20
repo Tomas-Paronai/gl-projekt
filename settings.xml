@@ -1,1 +1,1 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><settings/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><settings><connections><db_connection id="1"><url>192.168.22.69:3306</url><database>employees</database><user>parohy</user><pass>banka</pass><active>true</active><bookmark>remote</bookmark></db_connection></connections></settings>

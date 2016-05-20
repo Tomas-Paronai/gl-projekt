@@ -49,6 +49,14 @@ public class Main_screen extends ParentWindow implements OnDataChange {
                     + "left join `position` on employment_detail.positionid=position.positionid "
                     + "left join contract on employment_detail.contractid=contract.contractid";
             listOfEmployees = Employee.parseEmployee(handlerDB.executeForResult(detailQuery));
+            
+            for(Employee tmpEmployee : listOfEmployees){
+                String attendaceQuery = "SELECT Enter_time,Exit_time,(time_to_sec(timediff(Exit_time, Enter_time))/3600) AS `Hours` FROM past_shift WHERE EmployeeID="+tmpEmployee.getId();
+                select.selectWithQuery(attendaceQuery);
+                tmpEmployee.setShiftsFromRs(handlerDB.executeForResult(attendaceQuery));
+                shiftsTable.setModel(new DefaultTableModel(select.getData(),select.getColumns()));
+            }
+            
             System.out.println(listOfEmployees.size());
 
         } catch (HandlerDB.DBHandlerException ex) {
@@ -119,7 +127,7 @@ public class Main_screen extends ParentWindow implements OnDataChange {
         jLabel16 = new javax.swing.JLabel();
         employeeDoE = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        shiftsTable = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -363,7 +371,7 @@ public class Main_screen extends ParentWindow implements OnDataChange {
 
         jTabbedPane4.addTab("Work Info", jPanel1);
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        shiftsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -374,7 +382,7 @@ public class Main_screen extends ParentWindow implements OnDataChange {
                 "Arrival time", "Leaving time", "Hours Worked (day)"
             }
         ));
-        jScrollPane3.setViewportView(jTable2);
+        jScrollPane3.setViewportView(shiftsTable);
 
         jTabbedPane4.addTab("Attendance", jScrollPane3);
 
@@ -553,11 +561,11 @@ public class Main_screen extends ParentWindow implements OnDataChange {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane4;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JButton mainScrDelte;
     private javax.swing.JButton mainScrIUpdate;
     private javax.swing.JButton mainScrInsert;
     private javax.swing.JButton mainScrSave;
+    private javax.swing.JTable shiftsTable;
     // End of variables declaration//GEN-END:variables
 
 }
