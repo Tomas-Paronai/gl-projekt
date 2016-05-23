@@ -430,7 +430,10 @@ public class Settings extends ParentWindow{
     }//GEN-LAST:event_editBookmark
 
     private void saveSettings(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveSettings
-        
+        if(!"".equals(emailField.getText()) && !"".equals(hostField.getText())){
+            settingsHandler.saveEmail(emailField.getText(), hostField.getText(), "");
+        }
+
     }//GEN-LAST:event_saveSettings
 
     

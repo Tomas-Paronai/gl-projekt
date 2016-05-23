@@ -96,8 +96,7 @@ public class XmlParser {
                         connectionsArrayList.add(tmpConn);
                     }
                 }
-            }
-            
+            }                      
             
         } catch (SAXException | IOException ex) {            
             ex.printStackTrace();        
@@ -348,6 +347,25 @@ public class XmlParser {
     
     public ArrayList<DBConnection> getConnectionsArrayList() {
         return connectionsArrayList;
+    }
+    
+    public String getElementValue(String parent, String valueElement){
+        try{
+            Document doc = dBuilder.parse(parsingFile);
+            doc.getDocumentElement().normalize();
+            
+            Element parentElement = (Element) doc.getElementsByTagName(parent).item(0);
+            if(parentElement != null){
+                Element valElement = (Element) parentElement.getElementsByTagName(valueElement).item(0);
+                if(valElement != null){
+                    return valElement.getNodeValue();
+                }
+               
+            }
+        } catch (SAXException | IOException ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
     
     private void transfromAlg(Document doc) throws TransformerException{

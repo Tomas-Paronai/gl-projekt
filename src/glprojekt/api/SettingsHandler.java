@@ -26,6 +26,8 @@ public class SettingsHandler {
     private XmlParser parser;
     private boolean loggedin;
     
+    private EmailHandler emailHandler;
+    
     private ArrayList<DBConnection> connections;
     
     public SettingsHandler(){
@@ -45,6 +47,8 @@ public class SettingsHandler {
                 parser = new XmlParser(settingsFile);
                 connections = parser.getConnectionsArrayList();
                 connectToActive();
+                
+                initMail();
                 
             } catch (SAXException | IOException | ParserConfigurationException ex) {
                 ex.printStackTrace();                
@@ -176,6 +180,43 @@ public class SettingsHandler {
                 connectedDB = new HandlerDB(tmpConn.getUrl(),tmpConn.getDatabase(),tmpConn.getUser(),tmpConn.getPassword());
             }
         }
+    }
+    
+    public void saveEmail(String email, String host, String password){
+        if(!parser.dataElementExists("mailer")){
+            parser.insertDataElement("settings", "mailer");
+        }
+        
+        if(!parser.dataElementExists("email")){
+            parser.insertValueElement("mailer", "email", email);
+        }
+        else{
+            parser.changeElementValue("settings", "mailer", "email", email);
+        }
+        
+        if(!parser.dataElementExists("host")){
+            parser.insertValueElement("mailer", "host", host);
+        }
+        else{
+            parser.changeElementValue("settings", "mailer", "host", host);
+        }
+        
+        if(!parser.dataElementExists("password")){
+            parser.insertDataElement("mailer", "password",password);
+        }
+        else{
+            parser.changeElementValue("settings", "mailer", "password", password);
+        }
+    }
+
+    private void initMail() {
+        if(parser.dataElementExists("email") && parser.dataElementExists("host")){
+            this.emailHandler = new EmailHandler(parser.getElementValue("mailer", "email"), parser.getElementValue("maielr", "host"));
+        }
+    }
+
+    public EmailHandler getEmailHandler() {
+        return emailHandler;
     }
     
     
