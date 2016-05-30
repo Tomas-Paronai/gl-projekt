@@ -10,9 +10,12 @@ import glprojekt.api.database.HandlerDB;
 import glprojekt.api.database.Select;
 import glprojekt.api.dataholders.Employee;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.UIManager.*;
 
 /**
  *
@@ -26,8 +29,15 @@ public class Main_screen extends ParentWindow implements OnDataChange {
     public Main_screen(OnDataChange listener) {
         super(listener);
         initComponents();
-        this.getContentPane().setBackground(new Color(106, 159, 240));
+        this.getContentPane().setBackground(new Color(38,156,172));
         dataChanged();
+        this.setResizable(false);
+        EmployeesTable.setDefaultEditor(Object.class, null);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+      
+
+
     }
 
     @Override
@@ -83,6 +93,12 @@ public class Main_screen extends ParentWindow implements OnDataChange {
         String value=EmployeesTable.getValueAt(EmployeesTable.getSelectedRow(), 0).toString();
         return value;
     }
+     
+     public boolean isCellEditable(int column,int row)
+    {  
+        return false;
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -99,13 +115,6 @@ public class Main_screen extends ParentWindow implements OnDataChange {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         EmployeesTable = new javax.swing.JTable();
-        mainScrIUpdate = new javax.swing.JButton();
-        mainScrDelte = new javax.swing.JButton();
-        mainScrSave = new javax.swing.JButton();
-        mainScrInsert = new javax.swing.JButton();
-        employeeSurname = new javax.swing.JLabel();
-        jRefreshButton = new javax.swing.JButton();
-        SearchEmployee = new javax.swing.JButton();
         jTabbedPane4 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
@@ -128,6 +137,15 @@ public class Main_screen extends ParentWindow implements OnDataChange {
         employeeDoE = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         shiftsTable = new javax.swing.JTable();
+        employeeSurname = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        SearchEmployee = new javax.swing.JButton();
+        jRefreshButton = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
+        mainScrSave = new javax.swing.JButton();
+        mainScrDelte = new javax.swing.JButton();
+        mainScrIUpdate = new javax.swing.JButton();
+        mainScrInsert = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -151,7 +169,10 @@ public class Main_screen extends ParentWindow implements OnDataChange {
         setBackground(new java.awt.Color(106, 159, 240));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setForeground(java.awt.Color.white);
+        setMaximumSize(new java.awt.Dimension(900, 900));
+        setPreferredSize(new java.awt.Dimension(900, 900));
 
+        EmployeesTable.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         EmployeesTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"", null, null, null},
@@ -179,6 +200,8 @@ public class Main_screen extends ParentWindow implements OnDataChange {
                 "ID", "Name", "Surname", "Position"
             }
         ));
+        EmployeesTable.setEditingColumn(1);
+        EmployeesTable.setEditingRow(1);
         EmployeesTable.setRowHeight(23);
         EmployeesTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -187,56 +210,12 @@ public class Main_screen extends ParentWindow implements OnDataChange {
         });
         jScrollPane2.setViewportView(EmployeesTable);
 
-        mainScrIUpdate.setBackground(new java.awt.Color(102, 102, 102));
-        mainScrIUpdate.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        mainScrIUpdate.setForeground(new java.awt.Color(51, 51, 51));
-        mainScrIUpdate.setText("Update Employee");
-        mainScrIUpdate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mainScrIUpdateActionPerformed(evt);
-            }
-        });
-
-        mainScrDelte.setBackground(new java.awt.Color(102, 102, 102));
-        mainScrDelte.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        mainScrDelte.setForeground(new java.awt.Color(51, 51, 51));
-        mainScrDelte.setText("Delete employee");
-        mainScrDelte.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mainScrDelteActionPerformed(evt);
-            }
-        });
-
-        mainScrSave.setBackground(new java.awt.Color(102, 102, 102));
-        mainScrSave.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        mainScrSave.setForeground(new java.awt.Color(51, 51, 51));
-        mainScrSave.setText("Save all");
-
-        mainScrInsert.setBackground(new java.awt.Color(102, 102, 102));
-        mainScrInsert.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        mainScrInsert.setForeground(new java.awt.Color(51, 51, 51));
-        mainScrInsert.setText("Insert Employee");
-        mainScrInsert.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mainScrInsertActionPerformed(evt);
-            }
-        });
-
-        jRefreshButton.setText("Refresh");
-        jRefreshButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRefreshButtonActionPerformed(evt);
-            }
-        });
-
-        SearchEmployee.setText("Search Employee");
-        SearchEmployee.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SearchEmployeeActionPerformed(evt);
-            }
-        });
-
+        jTabbedPane4.setBackground(new java.awt.Color(255, 255, 255));
         jTabbedPane4.setToolTipText("");
+        jTabbedPane4.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setForeground(new java.awt.Color(255, 0, 0));
 
         jLabel9.setText("Date of birth");
 
@@ -263,7 +242,7 @@ public class Main_screen extends ParentWindow implements OnDataChange {
                     .addComponent(jLabel11)
                     .addComponent(employeeCity, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(employeeDoB, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(494, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -280,10 +259,12 @@ public class Main_screen extends ParentWindow implements OnDataChange {
                 .addComponent(jLabel11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(employeeCity)
-                .addContainerGap(72, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane4.addTab("Basic Info", jPanel2);
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel12.setText("Phone Number");
 
@@ -303,9 +284,9 @@ public class Main_screen extends ParentWindow implements OnDataChange {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel12)
                     .addComponent(jLabel13)
-                    .addComponent(employeeEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+                    .addComponent(employeeEmail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(employeePhone, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(532, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -318,10 +299,12 @@ public class Main_screen extends ParentWindow implements OnDataChange {
                 .addComponent(jLabel13)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(employeeEmail)
-                .addContainerGap(107, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane4.addTab("Contact", jPanel3);
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel14.setText("Hours Worked");
 
@@ -349,7 +332,7 @@ public class Main_screen extends ParentWindow implements OnDataChange {
                         .addComponent(employeeDoE, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(employeeHourWage, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(employeeHours, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(465, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -371,6 +354,7 @@ public class Main_screen extends ParentWindow implements OnDataChange {
 
         jTabbedPane4.addTab("Work Info", jPanel1);
 
+        shiftsTable.setForeground(new java.awt.Color(255, 0, 0));
         shiftsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
@@ -386,7 +370,122 @@ public class Main_screen extends ParentWindow implements OnDataChange {
 
         jTabbedPane4.addTab("Attendance", jScrollPane3);
 
-        jMenuBar1.setBackground(new java.awt.Color(106, 159, 240));
+        jPanel4.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel4.setMaximumSize(new java.awt.Dimension(900, 900));
+
+        SearchEmployee.setBackground(new java.awt.Color(104, 151, 157));
+        SearchEmployee.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        SearchEmployee.setText("Search Employee");
+        SearchEmployee.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.darkGray, java.awt.Color.gray, java.awt.Color.darkGray, java.awt.Color.gray));
+        SearchEmployee.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SearchEmployeeActionPerformed(evt);
+            }
+        });
+
+        jRefreshButton.setBackground(new java.awt.Color(104, 151, 157));
+        jRefreshButton.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jRefreshButton.setText("Refresh");
+        jRefreshButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.darkGray, java.awt.Color.gray, java.awt.Color.darkGray, java.awt.Color.gray));
+        jRefreshButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jRefreshButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRefreshButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addGap(48, 48, 48)
+                .addComponent(jRefreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(SearchEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(73, 73, 73))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap(22, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(SearchEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jRefreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27))
+        );
+
+        jPanel5.setBackground(new java.awt.Color(0, 0, 0));
+
+        mainScrSave.setBackground(new java.awt.Color(104, 151, 157));
+        mainScrSave.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        mainScrSave.setText("Save all");
+        mainScrSave.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.darkGray, java.awt.Color.gray, java.awt.Color.darkGray, java.awt.Color.gray));
+        mainScrSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mainScrSaveActionPerformed(evt);
+            }
+        });
+
+        mainScrDelte.setBackground(new java.awt.Color(104, 151, 157));
+        mainScrDelte.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        mainScrDelte.setText("Delete employee");
+        mainScrDelte.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.darkGray, java.awt.Color.gray, java.awt.Color.darkGray, java.awt.Color.gray));
+        mainScrDelte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mainScrDelteActionPerformed(evt);
+            }
+        });
+
+        mainScrIUpdate.setBackground(new java.awt.Color(104, 151, 157));
+        mainScrIUpdate.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        mainScrIUpdate.setText("Update Employee");
+        mainScrIUpdate.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.darkGray, java.awt.Color.gray, java.awt.Color.darkGray, java.awt.Color.gray));
+        mainScrIUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mainScrIUpdateActionPerformed(evt);
+            }
+        });
+
+        mainScrInsert.setBackground(new java.awt.Color(104, 151, 157));
+        mainScrInsert.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        mainScrInsert.setText("Insert Employee");
+        mainScrInsert.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.darkGray, java.awt.Color.gray, java.awt.Color.darkGray, java.awt.Color.gray));
+        mainScrInsert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mainScrInsertActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addGap(66, 66, 66)
+                .addComponent(mainScrInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(62, 62, 62)
+                .addComponent(mainScrIUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(48, 48, 48)
+                .addComponent(mainScrDelte, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(49, 49, 49)
+                .addComponent(mainScrSave, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(74, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(mainScrSave, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(mainScrDelte, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(mainScrIUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(mainScrInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        jMenuBar1.setBackground(new java.awt.Color(0, 0, 0));
+        jMenuBar1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jMenuBar1.setForeground(new java.awt.Color(255, 255, 255));
 
         jMenu1.setText("File");
@@ -402,63 +501,42 @@ public class Main_screen extends ParentWindow implements OnDataChange {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(45, 45, 45)
+                        .addGap(23, 23, 23)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jScrollPane2)
-                                .addComponent(jTabbedPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jRefreshButton)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(SearchEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(mainScrInsert)
+                            .addComponent(jTabbedPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 846, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 846, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(employeeSurname)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(mainScrIUpdate)
-                        .addGap(67, 67, 67)
-                        .addComponent(mainScrDelte)
-                        .addGap(39, 39, 39)
-                        .addComponent(mainScrSave, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(employeeSurname)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
+                        .addComponent(jLabel1))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(22, 22, 22)
-                                .addComponent(jRefreshButton)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(employeeSurname)
-                                .addGap(700, 700, 700))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTabbedPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                .addGap(38, 38, 38)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(mainScrSave, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(mainScrDelte, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(mainScrIUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(mainScrInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap())))
+                        .addContainerGap()
+                        .addComponent(jLabel1))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(employeeSurname)
+                        .addGap(627, 627, 627))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(SearchEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(700, 700, 700))))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTabbedPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -473,7 +551,20 @@ public class Main_screen extends ParentWindow implements OnDataChange {
     }//GEN-LAST:event_mainScrIUpdateActionPerformed
 
     private void mainScrDelteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mainScrDelteActionPerformed
-        int reply = JOptionPane.showConfirmDialog(null, "Are you sure you want to delele this employee?", "Close?", JOptionPane.YES_NO_OPTION);
+       int row = EmployeesTable.getSelectedRow();
+       if(row == -1)
+{
+    Object[] options = {"OK"};
+    int n = JOptionPane.showOptionDialog(null,
+                   "You must select employee before delete ! ","Select employee",
+                   JOptionPane.PLAIN_MESSAGE,
+                   JOptionPane.QUESTION_MESSAGE,
+                   null,
+                   options,
+                   options[0]);
+}
+       else{
+           int reply = JOptionPane.showConfirmDialog(null, "Are you sure you want to delele this employee?", "Close?", JOptionPane.YES_NO_OPTION);
         if (reply == JOptionPane.YES_OPTION) {
                String id = getIdForDelete();
                String query ="DELETE  FROM employee where employeeId like '"+id+"'";
@@ -484,6 +575,8 @@ public class Main_screen extends ParentWindow implements OnDataChange {
                else
                JOptionPane.showMessageDialog(null,"Error! Problem with deleting employee");
         }
+       }
+        
     }//GEN-LAST:event_mainScrDelteActionPerformed
  
 
@@ -526,6 +619,17 @@ public class Main_screen extends ParentWindow implements OnDataChange {
         openNewWindow(new Search_Employee(this, EmployeesTable));
     }//GEN-LAST:event_SearchEmployeeActionPerformed
 
+    private void mainScrSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mainScrSaveActionPerformed
+       Object[] options = {"OK"};
+    int n = JOptionPane.showOptionDialog(null,
+                   "Data has been saved successfully ! ","Save",
+                   JOptionPane.PLAIN_MESSAGE,
+                   JOptionPane.QUESTION_MESSAGE,
+                   null,
+                   options,
+                   options[0]);
+    }//GEN-LAST:event_mainScrSaveActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable EmployeesTable;
@@ -555,6 +659,8 @@ public class Main_screen extends ParentWindow implements OnDataChange {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JButton jRefreshButton;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

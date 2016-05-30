@@ -14,6 +14,8 @@ import glprojekt.gui.Search_Employee;
 import glprojekt.gui.Settings;
 
 import glprojekt.gui.Update_employee;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  *
@@ -29,14 +31,11 @@ public class Main {
      * @param args the command line arguments
      */
 
-    public static void main(String[] args) {      
+    public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {      
         Login log = new Login();
         log.setVisible(true);
-       //Main_screen main = new Main_screen(null);
-        //main.setVisible(true);
-       /*Search_Employee s = new Search_Employee();
-       s.setVisible(true);*/
-       //Settings settings = new Settings();
-       //settings.setVisible(true);
-    }
+        UIManager.setLookAndFeel( "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
 }
+
+    }
+
