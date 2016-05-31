@@ -82,17 +82,21 @@ public class Main_screen extends ParentWindow implements OnDataChange {
         currentWindow = window;
         currentWindow.setVisible(true);
     }
-
+   public String getIdForDelete(){
+        String value=EmployeesTable.getValueAt(EmployeesTable.getSelectedRow(), 0).toString();
+        return value;
+    }
     @Override
     public void dispose() {
         notifyDataChange();
         super.dispose();
     }
     
-     public String getIdForDelete(){
+     public String getIdForUpdate(){
         String value=EmployeesTable.getValueAt(EmployeesTable.getSelectedRow(), 0).toString();
         return value;
     }
+     
      
      public boolean isCellEditable(int column,int row)
     {  
@@ -547,7 +551,24 @@ public class Main_screen extends ParentWindow implements OnDataChange {
     }//GEN-LAST:event_mainScrInsertActionPerformed
 
     private void mainScrIUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mainScrIUpdateActionPerformed
-        openNewWindow(new Update_employee(this));
+        
+         int row = EmployeesTable.getSelectedRow();
+       if(row == -1){
+            Object[] options = {"OK"};
+            int n = JOptionPane.showOptionDialog(null,
+                           "You must select employee before update ! ","Select employee",
+                           JOptionPane.PLAIN_MESSAGE,
+                           JOptionPane.QUESTION_MESSAGE,
+                           null,
+                           options,
+                           options[0]);
+    }
+       else{
+               String id = getIdForUpdate();
+                openNewWindow(new Update_employee(this));
+              
+        }
+       
     }//GEN-LAST:event_mainScrIUpdateActionPerformed
 
     private void mainScrDelteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mainScrDelteActionPerformed

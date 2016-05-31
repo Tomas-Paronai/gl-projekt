@@ -19,13 +19,15 @@ public class Update_employee extends ParentWindow {
 
     HandlerDB handler = new HandlerDB("localhost:3306", "employees", "root", "");
     Query query = new Query();
+    private String id;
 
     /**
      * Creates new form Add_employee
      */
 
-    public Update_employee(OnDataChange aThis) {
+    public Update_employee(OnDataChange aThis,String id) {
         super(aThis);
+        this.id = id;
         initComponents();
         this.setResizable(false);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
