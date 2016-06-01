@@ -25,7 +25,7 @@ public class Update_employee extends ParentWindow {
     HandlerDB handler = new HandlerDB("localhost:3306", "employees", "root", "1234");
     Query query = new Query();
     private String employeeID;
-
+ 
     /**
      * Creates new form Add_employee
      */
@@ -412,6 +412,33 @@ public class Update_employee extends ParentWindow {
 
     }//GEN-LAST:event_jAddSaveActionPerformed
 
+  /*  public void updateEmployeeData() {
+        String gender = null;
+        try {
+            //do tabulky employee
+            handler.prepareStatement("update employee (FirstName, SurName, gender, Birthdate) VALUES (?, ?, ?, ?) where employeeID ='"+employeeID+"'");
+            String name = jAddName.getText();
+            String surName = jAddSurname.getText();
+            if (jAddMale.isSelected()) {
+                gender = "Male";
+            }
+            if (jAddFemale.isSelected()) {
+                gender = "Female";
+            }
+            String birthDate = handler.parseDateFromField(AddDate.getText());
+            handler.updateStatement(name, surName, gender, birthDate);
+            //do tabulky contacnt
+            handler.prepareStatement("INSERT INTO contact(`EmployeeID`, `Phone`, `Email`) VALUES (?,?,?) where employee");
+            String phone = jAddPhone.getText();
+            String email = jAddEmail.getText();
+            handler.updateStatement(phone, email);
+            
+            
+            handler.executeUpdate();
+        } catch (HandlerDB.DBHandlerException ex) {
+            System.out.println(ex);
+        }
+    }*/
   
    //funkcia vlozi vsetky informacie o zamestnancovi
     /*public void insertNewEmployee() {
