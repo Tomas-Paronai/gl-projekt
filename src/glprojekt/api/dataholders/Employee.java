@@ -62,8 +62,8 @@ public class Employee {
     }
     
     private void parseEmploymentInforamtion(HashMap<String,ArrayList<String>> resultSet, int row){
-        String position = resultSet.get("PositionName").get(row);
-        String Contract = resultSet.get("Contract_type").get(row);
+        String position = resultSet.get("Position_name").get(row);
+        String Contract = resultSet.get("Contract_name").get(row);
         String wage = resultSet.get("Salary_per_hour").get(row);
         Date workSince = null;
         

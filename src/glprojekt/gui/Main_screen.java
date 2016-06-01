@@ -13,6 +13,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.UIManager.*;
@@ -46,7 +48,7 @@ public class Main_screen extends ParentWindow implements OnDataChange {
 
         try {
 
-            String tableQuery = "SELECT employee.employeeid,firstname,surname,positionname FROM employee "
+            String tableQuery = "SELECT employee.employeeid,firstname,surname,position_name FROM employee "
                     + "left join employment_detail on employee.employeeid=employment_detail.employeeid "
                     + "left join `position` on employment_detail.positionid=position.positionid";
             select.selectWithQuery(tableQuery);
@@ -565,7 +567,11 @@ public class Main_screen extends ParentWindow implements OnDataChange {
     }
        else{
                String id = getIdForUpdate();
-                openNewWindow(new Update_employee(this));
+             try {
+                 openNewWindow(new Update_employee(this,id));
+             } catch (HandlerDB.DBHandlerException ex) {
+                 System.out.println(ex);
+             }
               
         }
        

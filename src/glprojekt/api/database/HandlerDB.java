@@ -132,6 +132,63 @@ public class HandlerDB {
         
         return result;
     }
+   
+    
+    /**
+     * Pouzivat na SELECT. Vysledok je HashMap. Kluc je nazov stlpca a hodnota je ArrayList stringov hodnot v danom stlpci.
+     * @param query
+     * @return
+     */
+    public HashMap<String, ArrayList<String>> getEmployeeInfo(String id) throws DBHandlerException {
+        Statement st;
+        ResultSet res;
+
+        HashMap<String,ArrayList<String>> result = new LinkedHashMap<>();
+
+        try {
+            if(connect()){
+                st = dbConnection.createStatement();
+                res = st.executeQuery("SELECT firstname,surname,gender,birthdate," 
+                                   + "position_name,contract_name,salary_per_hour,start_work," 
+                                   + "country,city,street,postcode," 
+                                   + "phone,email" 
+                                   + " from employee" 
+                                   + " inner join employment_detail on employee.employeeID = employment_detail.employeeID" 
+                                   + " inner join contract on employment_detail.contractID = contract.contractID" 
+                                   + " inner join `position` on employment_detail.positionID = position.positionID" 
+                                   + " inner join address on employee.employeeID= address.employeeID" 
+                                   + " inner join contact on employee.employeeID = contact.employeeID" 
+                                   + " where employee.employeeID = '"+id+"'");
+
+                ResultSetMetaData rsmd = res.getMetaData();
+                int maxColumn = rsmd.getColumnCount();
+                for(int i = 1; i <= maxColumn; i++){
+                    String columnName = rsmd.getColumnName(i);
+                    ArrayList<String> values = new ArrayList<>();
+                    while(res.next()){
+                        values.add(res.getString(columnName));
+                    }
+                    if(values.isEmpty()){
+                        throw new DBHandlerException("Empty set");
+                    }
+                    else{
+                        result.put(columnName,values);
+                    }
+                    revertResultSet(res);
+                    
+                }
+                disconnect();
+            }
+        } catch (SQLException e) {
+            System.out.println("error" +e);
+        }
+        return result;
+      
+    }
+    
+    
+    
+    
 
     /**
      * Pouzivat na manipulaciu s datami, cize INSERT, UPDATE a DELETE
@@ -307,7 +364,7 @@ public class HandlerDB {
                   result = statement.executeQuery();
                   while(result.next()){
                       int id = result.getInt("PositionID");
-                      String name = result.getString("positionName");
+                      String name = result.getString("position_name");
                       list.add(id+" "+name);
                   }
                     return list;
@@ -327,7 +384,7 @@ public class HandlerDB {
                   result = statement.executeQuery();
                   while(result.next()){
                       int id = result.getInt("ContractID");
-                      String name = result.getString("contract_type");
+                      String name = result.getString("contract_name");
                       list.add(id+" "+name);
                   }
                     return list;
