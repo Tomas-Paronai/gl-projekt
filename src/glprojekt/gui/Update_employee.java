@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -22,7 +23,7 @@ import java.util.logging.Logger;
  */
 public class Update_employee extends ParentWindow {
 
-    HandlerDB handler = new HandlerDB("localhost:3306", "employees", "root", "1234");
+    HandlerDB handler = new HandlerDB("localhost:3306", "employees", "root", "");
     Query query = new Query();
     private String employeeID;
  
@@ -404,19 +405,23 @@ public class Update_employee extends ParentWindow {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jAddResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAddResetActionPerformed
-       
+       reset();
     }//GEN-LAST:event_jAddResetActionPerformed
 
     private void jAddSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAddSaveActionPerformed
-       
+       updateEmployeeData();
+       updateContactData();
+       updateAdressData();
+       updateEmployeeDetailData();
+       message();
 
     }//GEN-LAST:event_jAddSaveActionPerformed
-
-  /*  public void updateEmployeeData() {
+ public void updateEmployeeData() {
         String gender = null;
         try {
+            
             //do tabulky employee
-            handler.prepareStatement("update employee (FirstName, SurName, gender, Birthdate) VALUES (?, ?, ?, ?) where employeeID ='"+employeeID+"'");
+            handler.prepareStatement("UPDATE employee SET Firstname=? ,Surname=? , gender = ?   where employeeID ='"+employeeID+"'");
             String name = jAddName.getText();
             String surName = jAddSurname.getText();
             if (jAddMale.isSelected()) {
@@ -425,99 +430,57 @@ public class Update_employee extends ParentWindow {
             if (jAddFemale.isSelected()) {
                 gender = "Female";
             }
-            String birthDate = handler.parseDateFromField(AddDate.getText());
-            handler.updateStatement(name, surName, gender, birthDate);
-            //do tabulky contacnt
-            handler.prepareStatement("INSERT INTO contact(`EmployeeID`, `Phone`, `Email`) VALUES (?,?,?) where employee");
+           // String birthDate = handler.parseDateFromField(AddDate.getText());
+            handler.updateStatement(name, surName, gender);
+                handler.executeUpdate();
+        } catch (HandlerDB.DBHandlerException ex) {
+            System.out.println(ex);
+        }
+        }
+ 
+ public void updateContactData(){
+     try {
+         handler.prepareStatement("UPDATE contact SET Phone=?, Email=? where employeeID = '"+employeeID+"'");
             String phone = jAddPhone.getText();
             String email = jAddEmail.getText();
             handler.updateStatement(phone, email);
-            
-            
             handler.executeUpdate();
-        } catch (HandlerDB.DBHandlerException ex) {
+     }catch (HandlerDB.DBHandlerException ex) {
             System.out.println(ex);
-        }
-    }*/
-  
-   //funkcia vlozi vsetky informacie o zamestnancovi
-    /*public void insertNewEmployee() {
-        insertEmployeeData();
-        String id = String.valueOf(handler.getLastID());
-        insertContactData(id);
-        insertAdressData(id);      
-        insertDetailData(id);
-        handler.disconnect();
-    }
-
-    //prida udaje do tabulky kontakt prijme posledne vlozene employeeID
-    public void insertContactData(String id) {
-        try {
-            handler.prepareStatement("INSERT INTO contact(`EmployeeID`, `Phone`, `Email`) VALUES (?,?,?)");
-            String phone = jAddPhone.getText();
-            String email = jAddEmail.getText();
-            handler.updateStatement(id, phone, email);
-            handler.executeUpdate();
-        } catch (HandlerDB.DBHandlerException ex) {
-            System.out.println(ex);
-        }
-    }
-
-    //prida udaje do tabulky employee
-    public void insertEmployeeData() {
-        String gender = null;
-        try {
-            handler.prepareStatement("INSERT INTO employee (FirstName, SurName, gender, Birthdate) VALUES (?, ?, ?, ?)");
-            String name = jAddName.getText();
-            String surName = jAddSurname.getText();
-            if (jAddMale.isSelected()) {
-                gender = "Male";
-            }
-            if (jAddFemale.isSelected()) {
-                gender = "Female";
-            }
-            String birthDate = handler.parseDateFromField(AddDate.getText());
-            handler.updateStatement(name, surName, gender, birthDate);
-            handler.executeUpdate();
-        } catch (HandlerDB.DBHandlerException ex) {
-            System.out.println(ex);
-        }
-    }
-
-    //prida udaje do tabulky adrress, prijme posledne employeeID
-    public void insertAdressData(String id) {
-        try {
-            handler.prepareStatement("INSERT INTO address (EmployeeID, Country, City, Street, Postcode) VALUES (?, ?, ?, ?, ?)");
+        } 
+ }
+   public void  updateAdressData(){
+          try {
+            handler.prepareStatement("UPDATE address SET Country = ?,City = ?,Street = ?, Postcode = ? where employeeID = '"+employeeID+"'");
             String country = jAddCountry.getText();
             String city = jAddCity.getText();
             String street = jAddStreet.getText();
             String postcode = jAddPostcode.getText();
-            handler.updateStatement(id, country, city, street, postcode);
+            handler.updateStatement(country, city, street, postcode);
             handler.executeUpdate();
-        } catch (HandlerDB.DBHandlerException ex) {
-            System.out.println("adresa: " + ex);
-        }
-    }
+     }catch (HandlerDB.DBHandlerException ex) {
+            System.out.println(ex);
+        }  
+  }
 
-    public void insertDetailData(String id) {
-        try {
-            handler.prepareStatement("INSERT INTO employment_detail (EmployeeID, PositionID, ContractID, Salary_Per_hour, Start_work) VALUES (?, ?, ?, ?, ?)");
+public void updateEmployeeDetailData(){
+      try {
+          handler.prepareStatement("UPDATE employment_detail SET PositionID = ? , ContractID = ?, Salary_Per_hour = ? where employeeID = '"+employeeID+"'");
             String wagePerH = jAddWph.getText();
             String contractID = comboBoxContract.getSelectedItem().toString();
             String positionID = comboBoxPosition.getSelectedItem().toString();
-            String startDate = handler.parseDateFromField(AddDate.getText());
             //contract id sa nachadza na nultej pozici
             String[] contract = contractID.split(" ");
             String[] position = positionID.split(" ");
-            handler.updateStatement(id, position[0], contract[0], wagePerH, startDate);
+            handler.updateStatement(position[0], contract[0], wagePerH);
+            
             handler.executeUpdate();
-        } catch (HandlerDB.DBHandlerException ex) {
-            System.out.println("detail:" + ex);
+     }catch (HandlerDB.DBHandlerException ex) {
+            System.out.println(ex);
         }
-    }
-
-   
-    }*/
+}   
+        
+ 
      public void setContract() {
         List<String> list = new ArrayList<String>();
         list = handler.getContractInfo();
@@ -558,6 +521,28 @@ public class Update_employee extends ParentWindow {
         } catch (HandlerDB.DBHandlerException ex) {
             Logger.getLogger(Update_employee.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    public void message(){
+         Object[] options = {"OK"};
+    int n = JOptionPane.showOptionDialog(null,
+                   "Information about employee has been udpated ! ","Update employee",
+                   JOptionPane.PLAIN_MESSAGE,
+                   JOptionPane.QUESTION_MESSAGE,
+                   null,
+                   options,
+                   options[0]);
+    }
+     
+    public void reset(){
+        jAddCountry.setText("");
+        jAddCity.setText("");
+        jAddPhone.setText("");
+        jAddEmail.setText("");
+        jAddPostcode.setText("");
+        jAddName.setText("");
+        jAddStreet.setText("");
+        jAddSurname.setText("");
+        jAddWph.setText("");
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -20,7 +20,7 @@ import javax.swing.JOptionPane;
  */
 public class Add_employee extends ParentWindow {
 
-    HandlerDB handler = new HandlerDB("localhost:3306", "employees", "root", "1234");
+    HandlerDB handler = new HandlerDB("localhost:3306", "employees", "root", "");
     Query query = new Query();
 
     /**
@@ -466,6 +466,7 @@ public class Add_employee extends ParentWindow {
         insertContactData(id);
         insertAdressData(id);      
         insertDetailData(id);
+         message ();
         handler.disconnect();
     }
 
@@ -562,9 +563,17 @@ public class Add_employee extends ParentWindow {
         jAddWph.setText("");
     }
 
-   
+    public void message (){
+        Object[] options = {"OK"};
+    int n = JOptionPane.showOptionDialog(null,
+                   "Employee has been sucessfully added ! ","Add employee",
+                   JOptionPane.PLAIN_MESSAGE,
+                   JOptionPane.QUESTION_MESSAGE,
+                   null,
+                   options,
+                   options[0]);
 
-
+}
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private datechooser.beans.DateChooserCombo AddDate;
     private javax.swing.ButtonGroup buttonGroup1;

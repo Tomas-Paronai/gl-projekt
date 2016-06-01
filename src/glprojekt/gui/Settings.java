@@ -352,6 +352,11 @@ public class Settings extends ParentWindow{
         jTabbedPane1.addTab("Email", jPanel3);
 
         cancelButton.setText("Cancel");
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
 
         saveButton.setText("Save");
         saveButton.addActionListener(new java.awt.event.ActionListener() {
@@ -434,9 +439,16 @@ public class Settings extends ParentWindow{
     private void saveSettings(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveSettings
         if(!"".equals(emailField.getText()) && !"".equals(hostField.getText())){
             settingsHandler.saveEmail(emailField.getText(), hostField.getText(), "");
+           
         }
+         message();
+         this.dispose();
 
     }//GEN-LAST:event_saveSettings
+
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_cancelButtonActionPerformed
 
     
 
@@ -520,5 +532,16 @@ public class Settings extends ParentWindow{
             emailField.setEditable(true);
             hostField.setEditable(true);
         }
+    }
+    
+     public void message(){
+         Object[] options = {"OK"};
+    int n = JOptionPane.showOptionDialog(null,
+                   "Information saved successfully ! ","Save",
+                   JOptionPane.PLAIN_MESSAGE,
+                   JOptionPane.QUESTION_MESSAGE,
+                   null,
+                   options,
+                   options[0]);
     }
 }
