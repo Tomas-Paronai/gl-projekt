@@ -23,19 +23,13 @@ import javax.swing.UnsupportedLookAndFeelException;
  */
 public class Main {
 
-    /*public static final String URL = "localhost:3306";
-    public static final String USER = "root";
-    public static final String DATABASE = "employees";
-    public static final String PASS = "";*/
     /**
      * @param args the command line arguments
      */
-
     public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {      
         Login log = new Login();
         log.setVisible(true);
         UIManager.setLookAndFeel( "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
 }
-
     }
 

@@ -15,7 +15,6 @@ import java.util.List;
 public class HandlerDB {
 
     private final String dateFix = "?zeroDateTimeBehavior=convertToNull&autoReconnect=true&useSSL=false";
-
     private String url;
     private String database;
     private String user;
