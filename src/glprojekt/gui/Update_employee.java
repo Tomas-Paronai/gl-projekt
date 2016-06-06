@@ -25,27 +25,24 @@ public class Update_employee extends ParentWindow {
 
     HandlerDB handler = new HandlerDB("localhost:3306", "employees", "root", "");
     private String employeeID;
- 
+
     /**
      * Creates new form Add_employee
      */
-
-    public Update_employee(OnDataChange aThis,String id) throws HandlerDB.DBHandlerException {
+    public Update_employee(OnDataChange aThis, String id) throws HandlerDB.DBHandlerException {
         super(aThis);
         this.employeeID = id;
         initComponents();
         setContract();
         setPossition();
-         setFields(id);
+        setFields(id);
         this.setResizable(false);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
-         System.out.println(employeeID);
-        
-       
+        this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
+        System.out.println(employeeID);
+
     }
 
-   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -405,23 +402,23 @@ public class Update_employee extends ParentWindow {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jAddResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAddResetActionPerformed
-       reset();
+        reset();
     }//GEN-LAST:event_jAddResetActionPerformed
 
     private void jAddSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAddSaveActionPerformed
-       updateEmployeeData();
-       updateContactData();
-       updateAdressData();
-       updateEmployeeDetailData();
-       message();
+        updateEmployeeData();
+        updateContactData();
+        updateAdressData();
+        updateEmployeeDetailData();
+        message();
 
     }//GEN-LAST:event_jAddSaveActionPerformed
- public void updateEmployeeData() {
+    public void updateEmployeeData() {
         String gender = null;
         try {
-            
+
             //do tabulky employee
-            handler.prepareStatement("UPDATE employee SET Firstname=? ,Surname=? , gender = ?   where employeeID ='"+employeeID+"'");
+            handler.prepareStatement("UPDATE employee SET Firstname=? ,Surname=? , gender = ?   where employeeID ='" + employeeID + "'");
             String name = jAddName.getText();
             String surName = jAddSurname.getText();
             if (jAddMale.isSelected()) {
@@ -430,42 +427,43 @@ public class Update_employee extends ParentWindow {
             if (jAddFemale.isSelected()) {
                 gender = "Female";
             }
-           // String birthDate = handler.parseDateFromField(AddDate.getText());
+            // String birthDate = handler.parseDateFromField(AddDate.getText());
             handler.updateStatement(name, surName, gender);
-                handler.executeUpdate();
+            handler.executeUpdate();
         } catch (HandlerDB.DBHandlerException ex) {
             System.out.println(ex);
         }
-        }
- 
- public void updateContactData(){
-     try {
-         handler.prepareStatement("UPDATE contact SET Phone=?, Email=? where employeeID = '"+employeeID+"'");
+    }
+
+    public void updateContactData() {
+        try {
+            handler.prepareStatement("UPDATE contact SET Phone=?, Email=? where employeeID = '" + employeeID + "'");
             String phone = jAddPhone.getText();
             String email = jAddEmail.getText();
             handler.updateStatement(phone, email);
             handler.executeUpdate();
-     }catch (HandlerDB.DBHandlerException ex) {
+        } catch (HandlerDB.DBHandlerException ex) {
             System.out.println(ex);
-        } 
- }
-   public void  updateAdressData(){
-          try {
-            handler.prepareStatement("UPDATE address SET Country = ?,City = ?,Street = ?, Postcode = ? where employeeID = '"+employeeID+"'");
+        }
+    }
+
+    public void updateAdressData() {
+        try {
+            handler.prepareStatement("UPDATE address SET Country = ?,City = ?,Street = ?, Postcode = ? where employeeID = '" + employeeID + "'");
             String country = jAddCountry.getText();
             String city = jAddCity.getText();
             String street = jAddStreet.getText();
             String postcode = jAddPostcode.getText();
             handler.updateStatement(country, city, street, postcode);
             handler.executeUpdate();
-     }catch (HandlerDB.DBHandlerException ex) {
+        } catch (HandlerDB.DBHandlerException ex) {
             System.out.println(ex);
-        }  
-  }
+        }
+    }
 
-public void updateEmployeeDetailData(){
-      try {
-          handler.prepareStatement("UPDATE employment_detail SET PositionID = ? , ContractID = ?, Salary_Per_hour = ? where employeeID = '"+employeeID+"'");
+    public void updateEmployeeDetailData() {
+        try {
+            handler.prepareStatement("UPDATE employment_detail SET PositionID = ? , ContractID = ?, Salary_Per_hour = ? where employeeID = '" + employeeID + "'");
             String wagePerH = jAddWph.getText();
             String contractID = comboBoxContract.getSelectedItem().toString();
             String positionID = comboBoxPosition.getSelectedItem().toString();
@@ -473,15 +471,14 @@ public void updateEmployeeDetailData(){
             String[] contract = contractID.split(" ");
             String[] position = positionID.split(" ");
             handler.updateStatement(position[0], contract[0], wagePerH);
-            
+
             handler.executeUpdate();
-     }catch (HandlerDB.DBHandlerException ex) {
+        } catch (HandlerDB.DBHandlerException ex) {
             System.out.println(ex);
         }
-}   
-        
- 
-     public void setContract() {
+    }
+
+    public void setContract() {
         List<String> list = new ArrayList<String>();
         list = handler.getContractInfo();
         for (String poss : list) {
@@ -494,16 +491,16 @@ public void updateEmployeeDetailData(){
         list = handler.getPossInfo();
         for (String poss : list) {
             comboBoxPosition.addItem(poss);
-        } 
+        }
     }
-    
-    public void setFields(String employeeID){
-         
+
+    public void setFields(String employeeID) {
+
         try {
-            HashMap<String,ArrayList<String>> result = handler.getEmployeeInfo(employeeID);
+            HashMap<String, ArrayList<String>> result = handler.getEmployeeInfo(employeeID);
             jAddName.setText(result.get("FirstName").get(0));
             jAddCountry.setText(result.get("Country").get(0));
-           jAddCity.setText(result.get("City").get(0));
+            jAddCity.setText(result.get("City").get(0));
             jAddPhone.setText(result.get("Phone").get(0));
             jAddEmail.setText(result.get("Email").get(0));
             jAddPostcode.setText(result.get("PostCode").get(0));
@@ -512,28 +509,28 @@ public void updateEmployeeDetailData(){
             jAddWph.setText(result.get("Salary_per_hour").get(0));
             if (result.get("Gender").equals("Male")) {
                 jAddMale.setSelected(true);
-           } 
-            else { 
-                 jAddFemale.setSelected(true);
-           }
+            } else {
+                jAddFemale.setSelected(true);
+            }
             comboBoxContract.setSelectedItem(result.get("Contract_name").get(0));
             comboBoxPosition.setSelectedItem(result.get("Position_name").get(0));
         } catch (HandlerDB.DBHandlerException ex) {
             Logger.getLogger(Update_employee.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public void message(){
-         Object[] options = {"OK"};
-    int n = JOptionPane.showOptionDialog(null,
-                   "Information about employee has been udpated ! ","Update employee",
-                   JOptionPane.PLAIN_MESSAGE,
-                   JOptionPane.QUESTION_MESSAGE,
-                   null,
-                   options,
-                   options[0]);
+
+    public void message() {
+        Object[] options = {"OK"};
+        int n = JOptionPane.showOptionDialog(null,
+                "Information about employee has been udpated ! ", "Update employee",
+                JOptionPane.PLAIN_MESSAGE,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]);
     }
-     
-    public void reset(){
+
+    public void reset() {
         jAddCountry.setText("");
         jAddCity.setText("");
         jAddPhone.setText("");

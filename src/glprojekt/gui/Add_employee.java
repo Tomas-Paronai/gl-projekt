@@ -445,9 +445,12 @@ public class Add_employee extends ParentWindow {
     }//GEN-LAST:event_jAddResetActionPerformed
 
     private void jAddSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAddSaveActionPerformed
+      if(checkEmpty()){
        insertNewEmployee();
-            JOptionPane.showMessageDialog(null, "Employee has been added");
-            reset();
+     reset();   
+      }
+      JOptionPane.showMessageDialog(null, "You need to fill up every information");
+        
     }//GEN-LAST:event_jAddSaveActionPerformed
 
     private void comboBoxContractActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxContractActionPerformed
@@ -560,6 +563,7 @@ public class Add_employee extends ParentWindow {
         jAddStreet.setText("");
         jAddSurname.setText("");
         jAddWph.setText("");
+        jAddSalary.setText("");
     }
 
     public void message (){
@@ -573,6 +577,19 @@ public class Add_employee extends ParentWindow {
                    options[0]);
 
 }
+   
+    public boolean checkEmpty(){
+        if(jAddName.getText().isEmpty() && jAddSurname.getText().isEmpty() && 
+                jAddCountry.getText().isEmpty()  &&  jAddCity.getText().isEmpty() && 
+                jAddStreet.getText().isEmpty()&& jAddNumber.getText().isEmpty() && 
+                jAddPostcode.getText().isEmpty() && jAddPhone.getText().isEmpty() &&
+                jAddEmail.getText().isEmpty() &&  jAddSalary.getText().isEmpty() &&
+                jAddWph.getText().isEmpty()){
+                
+        return false;
+    }
+        return true;
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private datechooser.beans.DateChooserCombo AddDate;
     private javax.swing.ButtonGroup buttonGroup1;
