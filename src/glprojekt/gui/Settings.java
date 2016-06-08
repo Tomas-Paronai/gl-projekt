@@ -35,7 +35,7 @@ public class Settings extends ParentWindow{
         this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
         this.getContentPane().setBackground(new Color(38,156,172));
         settingsHandler = new SettingsHandler();
-        initEmail();
+       
         initBookmarks();       
     }
     
@@ -43,7 +43,7 @@ public class Settings extends ParentWindow{
         initComponents();
         settingsHandler = new SettingsHandler(login);
         
-        initEmail();
+        
         initBookmarks();
     }
     
@@ -84,11 +84,6 @@ public class Settings extends ParentWindow{
         userField = new javax.swing.JTextField();
         databaseField = new javax.swing.JTextField();
         passwordField = new javax.swing.JTextField();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
-        emailField = new javax.swing.JTextField();
-        jLabel10 = new javax.swing.JLabel();
-        hostField = new javax.swing.JTextField();
         cancelButton = new javax.swing.JButton();
         saveButton = new javax.swing.JButton();
         mesageLabel = new javax.swing.JLabel();
@@ -315,45 +310,6 @@ public class Settings extends ParentWindow{
 
         jTabbedPane1.addTab("Connections", jTabbedPane2);
 
-        jLabel9.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel9.setText("Sender email: ");
-
-        emailField.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-
-        jLabel10.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel10.setText("Sender server: ");
-
-        hostField.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel9)
-                    .addComponent(emailField)
-                    .addComponent(jLabel10)
-                    .addComponent(hostField, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE))
-                .addContainerGap(183, Short.MAX_VALUE))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel10)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(hostField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(134, Short.MAX_VALUE))
-        );
-
-        jTabbedPane1.addTab("Email", jPanel3);
-
         cancelButton.setText("Cancel");
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -399,32 +355,34 @@ public class Settings extends ParentWindow{
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void saveSettings(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveSettings
+        
+         message();
+         this.dispose();
+
+    }//GEN-LAST:event_saveSettings
+
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_cancelButtonActionPerformed
+
     private void connectToDB(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectToDB
         if(urlField.getText() != "" && databaseField.getText() != "" && userField.getText() != ""){
             if(settingsHandler.connectToWithOption(urlField.getText(), databaseField.getText(), userField.getText(), passwordField.getText())){
                 messageConnect();
                 initBookmarks();
                 this.dispose();
-                
+
             }
             else{
-               messageConnectUnsuccess();
+                messageConnectUnsuccess();
             }
-        }                
+        }
     }//GEN-LAST:event_connectToDB
 
-    private void connectFromBookmark(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectFromBookmark
-        DBConnection selectedConn = settingsHandler.getConnections().get(connectionsList.getSelectedIndex());
-        if(settingsHandler.connectTo(selectedConn.getUrl(), selectedConn.getDatabase(), selectedConn.getUser(), passwordField2.getText())){
-                settingsHandler.setConnectionSetting(selectedConn.getId(), "active", "true");
-                settingsHandler.setConnectionSetting(selectedConn.getId(), "pass", passwordField2.getText());
-                messageConnect();    
-                   this.dispose();
-        }
-            else{
-               messageConnectUnsuccess();
-            }
-    }//GEN-LAST:event_connectFromBookmark
+    private void editBookmark(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBookmark
+
+    }//GEN-LAST:event_editBookmark
 
     private void deleteBookmark(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBookmark
         DBConnection selectedConn = settingsHandler.getConnections().get(connectionsList.getSelectedIndex());
@@ -438,23 +396,18 @@ public class Settings extends ParentWindow{
         }
     }//GEN-LAST:event_deleteBookmark
 
-    private void editBookmark(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBookmark
-        
-    }//GEN-LAST:event_editBookmark
-
-    private void saveSettings(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveSettings
-        if(!"".equals(emailField.getText()) && !"".equals(hostField.getText())){
-            settingsHandler.saveEmail(emailField.getText(), hostField.getText(), "");
-           
+    private void connectFromBookmark(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectFromBookmark
+        DBConnection selectedConn = settingsHandler.getConnections().get(connectionsList.getSelectedIndex());
+        if(settingsHandler.connectTo(selectedConn.getUrl(), selectedConn.getDatabase(), selectedConn.getUser(), passwordField2.getText())){
+            settingsHandler.setConnectionSetting(selectedConn.getId(), "active", "true");
+            settingsHandler.setConnectionSetting(selectedConn.getId(), "pass", passwordField2.getText());
+            messageConnect();
+            this.dispose();
         }
-         message();
-         this.dispose();
-
-    }//GEN-LAST:event_saveSettings
-
-    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_cancelButtonActionPerformed
+        else{
+            messageConnectUnsuccess();
+        }
+    }//GEN-LAST:event_connectFromBookmark
 
     
 
@@ -464,13 +417,10 @@ public class Settings extends ParentWindow{
     private javax.swing.JList<String> connectionsList;
     private javax.swing.JTextField databaseField;
     private javax.swing.JLabel databaseLabel1;
-    private javax.swing.JTextField emailField;
-    private javax.swing.JTextField hostField;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -478,10 +428,8 @@ public class Settings extends ParentWindow{
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
@@ -533,12 +481,7 @@ public class Settings extends ParentWindow{
         connectionsList.clearSelection();
     }
     
-    private void initEmail(){
-        if(settingsHandler.isLoggedin()){
-            emailField.setEditable(true);
-            hostField.setEditable(true);
-        }
-    }
+   
     
      public void message(){
          Object[] options = {"OK"};
