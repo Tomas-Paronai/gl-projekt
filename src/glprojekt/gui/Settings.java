@@ -12,6 +12,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
@@ -23,7 +26,7 @@ import javax.swing.event.ListSelectionListener;
  * @author tomas
  */
 public class Settings extends ParentWindow{
-    
+   
     private SettingsHandler settingsHandler;
     
     public Settings() {
@@ -399,11 +402,13 @@ public class Settings extends ParentWindow{
     private void connectToDB(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectToDB
         if(urlField.getText() != "" && databaseField.getText() != "" && userField.getText() != ""){
             if(settingsHandler.connectToWithOption(urlField.getText(), databaseField.getText(), userField.getText(), passwordField.getText())){
-                mesageLabel.setText("Connection successful");
+                messageConnect();
                 initBookmarks();
+                this.dispose();
+                
             }
             else{
-               mesageLabel.setText("Connection unsuccessful"); 
+               messageConnectUnsuccess();
             }
         }                
     }//GEN-LAST:event_connectToDB
@@ -413,10 +418,11 @@ public class Settings extends ParentWindow{
         if(settingsHandler.connectTo(selectedConn.getUrl(), selectedConn.getDatabase(), selectedConn.getUser(), passwordField2.getText())){
                 settingsHandler.setConnectionSetting(selectedConn.getId(), "active", "true");
                 settingsHandler.setConnectionSetting(selectedConn.getId(), "pass", passwordField2.getText());
-                mesageLabel.setText("Connection successful.");                               
-            }
+                messageConnect();    
+                   this.dispose();
+        }
             else{
-               mesageLabel.setText("Connection unsuccessful."); 
+               messageConnectUnsuccess();
             }
     }//GEN-LAST:event_connectFromBookmark
 
@@ -544,4 +550,26 @@ public class Settings extends ParentWindow{
                    options,
                    options[0]);
     }
+     
+      public void messageConnect() {
+        Object[] options = {"OK"};
+        int n = JOptionPane.showOptionDialog(null,
+                "Connection successful. ! ", "Connection",
+                JOptionPane.PLAIN_MESSAGE,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]);
+    }
+      
+      public void messageConnectUnsuccess(){
+          Object[] options = {"OK"};
+        int n = JOptionPane.showOptionDialog(null,
+                "Connection unsuccessful, Please try again ! ", "Connection",
+                JOptionPane.PLAIN_MESSAGE,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]);
+      }
 }
